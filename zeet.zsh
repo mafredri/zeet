@@ -16,6 +16,8 @@ ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 fpath=($ZSH/zfunctions(N) $ZSH/modules/zsh-completions/src(N) /usr/local/share/zsh/site-functions(N) $fpath)
 fignore=(.DS_Store $fignore)
 
+source $ZSH/update.zsh
+
 # Load pure prompt
 autoload -U promptinit && promptinit
 prompt pure
