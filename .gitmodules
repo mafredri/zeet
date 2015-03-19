@@ -13,3 +13,6 @@
 [submodule "modules/zsh-syntax-highlighting"]
 	path = modules/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "modules/zsh-async"]
+	path = modules/zsh-async
+	url = https://github.com/mafredri/zsh-async.git
