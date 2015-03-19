@@ -19,7 +19,6 @@ _zeet_update_callback() {
 }
 
 _zeet_update_init() {
-	echo "Zeet update init"
 	autoload -Uz async && async
 
 	async_start_worker "zeet" -n
