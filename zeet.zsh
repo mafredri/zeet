@@ -2,7 +2,7 @@
 
 ZSH=~/.zsh
 
-source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $ZSH/modules/z/z.sh
 
