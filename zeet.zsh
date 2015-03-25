@@ -23,8 +23,8 @@ autoload -U promptinit && promptinit
 prompt pure
 
 # Set RPROMPT with current time
-setopt no_transient_rprompt
-RPROMPT="%F{white}%T%f"
+# setopt no_transient_rprompt
+# RPROMPT="%F{white}%T%f"
 
 # Modules
 autoload -U compinit && compinit -i
