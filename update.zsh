@@ -1,8 +1,12 @@
 #!/usr/bin/env zsh
 
 _zeet_update() {
-	cd $1
-	command git fetch --quiet
+	cd $*
+	command git -c gc.auto=0 fetch --quiet
+
+	# Add some delay, we don't want updates to trigger too fast
+	sleep 1
+
 	local behind=$(command git rev-list --right-only --count HEAD...@'{u}')
 	if (( behind > 0 )); then
 		command git pull --quiet
