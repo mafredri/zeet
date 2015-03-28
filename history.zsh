@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
 HISTFILE=~/.zsh_history
-HISTSIZE=10240
-SAVEHIST=10240
+HISTSIZE=4096
+SAVEHIST=4096
 
 setopt append_history         # append to $HISTFILE instead of replace
 setopt extended_history       # save additional info to $HISTFILE
