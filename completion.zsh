@@ -1,5 +1,9 @@
 #!/usr/bin/env zsh
 
+autoload -Uz compinit && compinit -i
+zmodload zsh/complist
+zmodload zsh/computil
+
 setopt complete_in_word
 setopt no_complete_aliases # complete_aliases breaks autocompletion in z
 setopt always_to_end
@@ -39,3 +43,14 @@ zstyle ':completion:*:parameters' list-colors "=[^a-zA-Z]*=$color[red]"
 zstyle ':completion:*:aliases' list-colors "=*=$color[green]"
 
 zstyle ':completion:*:*:*:users' ignored-patterns "_*"
+
+# Make sure zcompdump files have been compiled
+(
+	setopt extended_glob
+	zmodload zsh/stat
+	for zcd in ~/.zcompdump*~*.zwc; do
+		if (( $(zstat +mtime $zcd) > $(zstat +mtime $zcd.zwc 2>/dev/null || print 0) )); then
+			zcompile $zcd
+		fi
+	done
+) &!

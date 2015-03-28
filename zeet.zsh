@@ -27,14 +27,11 @@ prompt pure
 # RPROMPT="%F{white}%T%f"
 
 # Modules
-autoload -U compinit && compinit -i
-zmodload -i zsh/complist
-zmodload -i zsh/computil
-zmodload -i zsh/terminfo
-autoload -U colors && colors
-autoload -U url-quote-magic && zle -N self-insert url-quote-magic
-autoload -U select-word-style && select-word-style bash
-autoload -U zmv
+zmodload zsh/terminfo
+autoload -Uz colors && colors
+autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
+autoload -Uz select-word-style && select-word-style bash
+autoload -Uz zmv
 zle -N hst
 
 autoload brew-cask && brew-cask
