@@ -65,6 +65,8 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export CLICOLOR="yes"
 
+export PROMPT_EOL_MARK='%{$bg[red]%}%{$fg[white]%}%%%{$reset_color%}'
+
 # Set default editor based on SSH
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='rmate --wait'
