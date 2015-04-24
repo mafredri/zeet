@@ -10,7 +10,7 @@ setopt always_to_end
 setopt auto_menu           # show completion menu on succesive tab press
 
 zstyle ':completion:*' squeeze-slashes true
-zstyle ':completion:*' insert-tab pending
+zstyle ':completion:*' insert-tab true
 zstyle ':completion:*' expand yes
 # case-insensitive (all),partial-word and then substring completion
 zstyle ':completion:*' matcher-list "m:{a-zA-Z}={A-Za-z}" "r:|[._-]=* r:|=*" "l:|=* r:|=*"
