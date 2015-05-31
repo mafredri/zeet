@@ -4,10 +4,15 @@ alias grep='grep --color=auto'
 
 alias sshf='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
-if [[ $OSTYPE == darwin* ]]; then
-	alias ls='ls -GFh'
-fi
+# wget http://nion.modprobe.de/mostlike.txt
+# tic mostlike.txt && rm mostlike.txt
+alias man="TERMINFO=~/.terminfo/ LESS=C TERM=mostlike PAGER=less man"
 
-if [[ $OSTYPE == linux-gnu ]]; then
-	alias ls='ls --color=auto -Fh'
-fi
+case $OSTYPE in
+	darwin*)
+		alias ls='ls -GFh'
+		;;
+	linux-gnu)
+		alias ls='ls --color=auto -Fh'
+		;;
+esac
