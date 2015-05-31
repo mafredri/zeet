@@ -4,7 +4,7 @@ ZSH=~/.zsh
 
 # Set fpath and fignore for compinit (completions)
 fpath=(
-	$ZSH/zfunctions(N)
+	$ZSH/functions(N)
 	$ZSH/completions(N)
 	$ZSH/modules/zsh-completions/src(N)
 	$fpath
