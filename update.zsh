@@ -1,13 +1,14 @@
 #!/usr/bin/env zsh
 
 _zeet_update() {
-	cd $*
+	cd "$*"
 	command git -c gc.auto=0 fetch --quiet
 
 	# Add some delay, we don't want updates to trigger too fast
 	sleep 1
 
-	local behind=$(command git rev-list --right-only --count HEAD...@'{u}')
+	local behind
+	behind=$(command git rev-list --right-only --count HEAD...@'{u}')
 	if (( behind > 0 )); then
 		command git pull --quiet
 		command git submodule init --quiet
@@ -32,7 +33,7 @@ _zeet_update_init() {
 }
 
 zeet_check_for_updates() {
-	async_job "zeet" _zeet_update $ZSH
+	async_job "zeet" _zeet_update "$ZSH"
 }
 
 if (( ! _ZEET_UPDATE_INIT )); then

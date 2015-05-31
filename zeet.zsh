@@ -1,6 +1,9 @@
 #!/usr/bin/env zsh
 
 ZSH=~/.zsh
+# Configure Z before initializing below
+_Z_NO_RESOLVE_SYMLINKS=1
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 # Set fpath and fignore for compinit (completions)
 fpath=(
@@ -11,9 +14,6 @@ fpath=(
 )
 fignore=(.DS_Store $fignore)
 
-# Configure Z before initializing below
-_Z_NO_RESOLVE_SYMLINKS=1
-
 # source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $ZSH/modules/z/z.sh
@@ -21,9 +21,6 @@ source $ZSH/modules/z/z.sh
 source $ZSH/aliases.zsh
 source $ZSH/completion.zsh
 source $ZSH/history.zsh
-
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-
 source $ZSH/update.zsh
 
 # Load pure prompt
