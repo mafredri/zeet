@@ -2,6 +2,18 @@
 
 ZSH=~/.zsh
 
+# Set fpath and fignore for compinit (completions)
+fpath=(
+	$ZSH/zfunctions(N)
+	$ZSH/completions(N)
+	$ZSH/modules/zsh-completions/src(N)
+	$fpath
+)
+fignore=(.DS_Store $fignore)
+
+# Configure Z before initializing below
+_Z_NO_RESOLVE_SYMLINKS=1
+
 # source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
 source $ZSH/modules/z/z.sh
@@ -11,10 +23,6 @@ source $ZSH/completion.zsh
 source $ZSH/history.zsh
 
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-
-# Set fpath and fignore for compinit (completions)
-fpath=($ZSH/zfunctions(N) $ZSH/modules/zsh-completions/src(N) /usr/local/share/zsh/site-functions(N) $fpath)
-fignore=(.DS_Store $fignore)
 
 source $ZSH/update.zsh
 
