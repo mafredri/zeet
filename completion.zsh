@@ -44,13 +44,18 @@ zstyle ':completion:*:aliases' list-colors "=*=$color[green]"
 
 zstyle ':completion:*:*:*:users' ignored-patterns "_*"
 
-# Make sure zcompdump files have been compiled
-(
+compile_zcompdump() {
+	setopt local_options
+	setopt null_glob
 	setopt extended_glob
+
 	zmodload zsh/stat
+	# Make sure zcompdump files have been compiled
 	for zcd in ~/.zcompdump*~*.zwc; do
 		if (( $(zstat +mtime $zcd) > $(zstat +mtime $zcd.zwc 2>/dev/null || print 0) )); then
 			zcompile $zcd
 		fi
 	done
-) &!
+}
+
+(compile_zcompdump) &!
