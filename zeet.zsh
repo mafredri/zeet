@@ -128,3 +128,5 @@ zle -N zle-line-finish
 
 # Source a local zshrc if available
 [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
+
+$ZSH/extra.zsh &!
