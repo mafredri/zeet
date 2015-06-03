@@ -23,7 +23,7 @@ _zeet_update_re_source() {
 }
 
 _zeet_update_callback() {
-	if [[ $2 == 0 ]]; then
+	if [[ "$2" == "0" ]]; then
 		zmodload zsh/sched
 		sched +1 _zeet_update_re_source
 	fi
