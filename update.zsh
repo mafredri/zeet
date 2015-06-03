@@ -18,9 +18,14 @@ _zeet_update() {
 	return 1
 }
 
+_zeet_update_re_source() {
+	source ~/.zshrc
+}
+
 _zeet_update_callback() {
 	if [[ $2 == 0 ]]; then
-		source ~/.zshrc
+		zmodload zsh/sched
+		sched +1 _zeet_update_re_source
 	fi
 }
 
