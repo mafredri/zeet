@@ -21,24 +21,24 @@ esac
 # are provided, open the $PWD. If the parameter is not a directory, call subl
 # normally.
 _subl() {
-    local params="$*"
-    local project
+	local params="$*"
+	local project
 
-    if test -z "$params"; then
-        params=.
-    fi
+	if test -z "$params"; then
+		params=.
+	fi
 
-    if test -d "$params"; then
-        project=$(ls "$params"/*.sublime-project 2>/dev/null) 2>/dev/null
+	if test -d "$params"; then
+		project=$(ls "$params"/*.sublime-project 2>/dev/null) 2>/dev/null
 
-        if test -n "$project"; then
-            command subl --project "$project"
-        else
-            command subl "$params"
-        fi
-    else
-        command subl "$@"
-    fi
+		if test -n "$project"; then
+			command subl --project "$project"
+		else
+			command subl "$params"
+		fi
+	else
+		command subl "$@"
+	fi
 }
 
 alias subl="_subl"
