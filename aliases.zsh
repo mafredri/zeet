@@ -42,3 +42,16 @@ _subl() {
 }
 
 alias subl="_subl"
+
+_nocoffee() {
+	local sleep_time=7
+	[[ "$1" != "" ]] && sleep_time=$1
+	echo "Notification in $sleep_time minutes..."
+	sleep_time=$(( sleep_time * 60 ))
+	(
+		sleep $sleep_time
+		osascript -e 'tell app "System Events" to display alert "Your coffee is done!" message "Go get your coffee!" as critical'
+	) &>/dev/null &!
+}
+
+alias nocoffee="_nocoffee"
