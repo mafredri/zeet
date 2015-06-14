@@ -27,6 +27,9 @@ source $ZSH/update.zsh
 autoload -U promptinit && promptinit
 prompt pure
 
+# Unset prompt_cr set by pure
+unsetopt prompt_cr
+
 # Set RPROMPT with current time
 # setopt no_transient_rprompt
 # RPROMPT="%F{white}%T%f"
@@ -130,3 +133,5 @@ zle -N zle-line-finish
 [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
 
 $ZSH/extra.zsh &!
+
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
