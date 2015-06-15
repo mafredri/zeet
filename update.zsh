@@ -11,8 +11,7 @@ _zeet_update() {
 	behind=$(command git rev-list --right-only --count HEAD...@'{u}')
 	if (( behind > 0 )); then
 		command git pull --quiet
-		command git submodule init --quiet
-		command git submodule update --quiet
+		command git submodule update --init --quiet
 		return 0
 	fi
 	return 1
