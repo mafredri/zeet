@@ -6,6 +6,9 @@ alias sshf='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
 # wget http://nion.modprobe.de/mostlike.txt
 # tic mostlike.txt && rm mostlike.txt
+if test ! $(find $HOME/.terminfo -name mostlike); then
+	tic $ZSH/misc/mostlike.txt
+fi
 alias man="TERMINFO=~/.terminfo/ LESS=C TERM=mostlike PAGER=less man"
 
 case $OSTYPE in
