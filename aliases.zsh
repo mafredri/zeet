@@ -20,6 +20,11 @@ case $OSTYPE in
 		;;
 esac
 
+_code() {
+	VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*
+}
+alias code="_code"
+
 # Detect and open sublime-project files in the provided path, if no parameters
 # are provided, open the $PWD. If the parameter is not a directory, call subl
 # normally.
