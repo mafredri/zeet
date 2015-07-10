@@ -26,6 +26,7 @@ _zeet_update_callback() {
 		zmodload zsh/sched
 		sched +1 _zeet_update_re_source
 	fi
+	async_stop_worker "zeet"
 }
 
 _zeet_update_init() {
