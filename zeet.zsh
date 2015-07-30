@@ -14,28 +14,14 @@ fpath=(
 )
 fignore=(.DS_Store $fignore)
 
-# source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
-source $ZSH/modules/z/z.sh
-
 source $ZSH/aliases.zsh
 source $ZSH/completion.zsh
 source $ZSH/history.zsh
 source $ZSH/update.zsh
 
-# Load pure prompt
-autoload -U promptinit && promptinit
-prompt pure
-
-# Unset prompt_cr set by pure
-unsetopt prompt_cr
-
-# Set RPROMPT with current time
-# setopt no_transient_rprompt
-# RPROMPT="%F{white}%T%f"
-
 # Modules
 zmodload zsh/terminfo
+autoload -Uz promptinit && promptinit
 autoload -Uz colors && colors
 autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
 autoload -Uz select-word-style && select-word-style bash
@@ -102,8 +88,10 @@ key[ShiftTab]=${terminfo[kcbt]}
 [[ -n "${key[End]}"      ]] && bindkey "${key[End]}"      end-of-line
 [[ -n "${key[Insert]}"   ]] && bindkey "${key[Insert]}"   overwrite-mode
 [[ -n "${key[Delete]}"   ]] && bindkey "${key[Delete]}"   delete-char
-[[ -n "${key[Up]}"       ]] && bindkey "${key[Up]}"       history-substring-search-up
-[[ -n "${key[Down]}"     ]] && bindkey "${key[Down]}"     history-substring-search-down
+# [[ -n "${key[Up]}"       ]] && bindkey "${key[Up]}"       history-substring-search-up
+# [[ -n "${key[Down]}"     ]] && bindkey "${key[Down]}"     history-substring-search-down
+# [[ -n "${key[Up]}"       ]] && bindkey "${key[Up]}"       history-incremental-search-backward
+# [[ -n "${key[Down]}"     ]] && bindkey "${key[Down]}"     history-incremental-search-forward
 [[ -n "${key[Left]}"     ]] && bindkey "${key[Left]}"     backward-char
 [[ -n "${key[Right]}"    ]] && bindkey "${key[Right]}"    forward-char
 # [[ -n "${key[PageUp]}"   ]] && bindkey "${key[PageUp]}"   beginning-of-buffer-or-history
@@ -112,6 +100,8 @@ key[ShiftTab]=${terminfo[kcbt]}
 
 # [Ctrl-r] - Reverse search
 bindkey '^r' history-incremental-search-backward
+bindkey '^f' history-incremental-search-forward
+
 # [Esc-e] - Edit command line in $EDITOR
 autoload -U edit-command-line && zle -N edit-command-line
 bindkey '\ee' edit-command-line
@@ -135,3 +125,10 @@ zle -N zle-line-finish
 $ZSH/extra.zsh &!
 
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+
+# Load pure prompt
+prompt pure
+
+# source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $ZSH/modules/z/z.sh
