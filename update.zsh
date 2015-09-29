@@ -1,15 +1,14 @@
 #!/usr/bin/env zsh
 
 _zeet_update() {
-	cd "$*"
+	# cd -q prevents side-effects of changing directory
+	cd -q $1
+	# prevent git garbage collection for performance reasons
 	command git -c gc.auto=0 fetch --quiet
 
-	# Add some delay, we don't want updates to trigger too fast
-	sleep 1
-
 	local behind
-	behind=$(command git rev-list --right-only --count HEAD...@'{u}')
-	if (( behind > 0 )); then
+	behind=$(command git rev-list --right-only --count HEAD...@'{u}' 2>/dev/null)
+	if (( ${behind:-0} > 0 )); then
 		command git pull --quiet
 		command git submodule update --init --quiet
 		return 0
@@ -22,7 +21,9 @@ _zeet_update_re_source() {
 }
 
 _zeet_update_callback() {
-	if [[ "$2" == "0" ]]; then
+	if [[ $2 == 0 ]]; then
+		# use zsh/sched to schedule re-sourcing of .zshrc 1 second from now,
+		# prevents current execution context from being interrupted
 		zmodload zsh/sched
 		sched +1 _zeet_update_re_source
 	fi
@@ -38,7 +39,7 @@ _zeet_update_init() {
 }
 
 zeet_check_for_updates() {
-	async_job "zeet" _zeet_update "$ZSH"
+	async_job "zeet" _zeet_update $ZSH
 }
 
 if (( ! _ZEET_UPDATE_INIT )); then
