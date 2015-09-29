@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
 alias grep='grep --color=auto'
+alias igrep='grep -i'
 
 alias sshf='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 

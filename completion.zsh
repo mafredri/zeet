@@ -43,3 +43,7 @@ zstyle ':completion:*:parameters' list-colors "=[^a-zA-Z]*=$color[red]"
 zstyle ':completion:*:aliases' list-colors "=*=$color[green]"
 
 zstyle ':completion:*:*:*:users' ignored-patterns "_*"
+
+# if command which -s gulp; then
+# 	eval "$(gulp --completion=zsh)"
+# fi

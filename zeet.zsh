@@ -124,7 +124,10 @@ zle -N zle-line-finish
 
 $ZSH/extra.zsh &!
 
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+# if whence pyenv > /dev/null; then
+# 	eval "$(pyenv init -)"
+# 	eval "$(pyenv virtualenv-init -)"
+# fi
 
 # Load pure prompt
 prompt pure
