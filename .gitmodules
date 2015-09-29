@@ -1,6 +1,6 @@
 [submodule "modules/pure"]
 	path = modules/pure
-	url = https://github.com/mafredri/pure.git
+	url = https://github.com/sindresorhus/pure.git
 [submodule "modules/z"]
 	path = modules/z
 	url = https://github.com/rupa/z.git
