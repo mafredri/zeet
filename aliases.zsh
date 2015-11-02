@@ -10,7 +10,9 @@ alias sshf='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 if test ! $(find $HOME/.terminfo -name mostlike 2>/dev/null); then
 	tic $ZSH/misc/mostlike.txt
 fi
-alias man="TERMINFO=~/.terminfo/ LESS=C TERM=mostlike PAGER=less man"
+man() {
+	TERMINFO=$HOME/.terminfo LESS=C TERM=mostlike PAGER=less command man $@
+}
 
 case $OSTYPE in
 	darwin*)
