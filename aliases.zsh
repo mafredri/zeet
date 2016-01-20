@@ -23,38 +23,11 @@ case $OSTYPE in
 		;;
 esac
 
-_code() {
+code() {
 	VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*
 }
-alias code="_code"
 
-# Detect and open sublime-project files in the provided path, if no parameters
-# are provided, open the $PWD. If the parameter is not a directory, call subl
-# normally.
-_subl() {
-	local params="$*"
-	local project
-
-	if test -z "$params"; then
-		params=.
-	fi
-
-	if test -d "$params"; then
-		project=$(ls "$params"/*.sublime-project 2>/dev/null) 2>/dev/null
-
-		if test -n "$project"; then
-			command subl --project "$project"
-		else
-			command subl "$params"
-		fi
-	else
-		command subl "$@"
-	fi
-}
-
-alias subl="_subl"
-
-_nocoffee() {
+nocoffee() {
 	local sleep_time=7
 	[[ "$1" != "" ]] && sleep_time=$1
 	echo "Notification in $sleep_time minutes..."
@@ -65,4 +38,6 @@ _nocoffee() {
 	) &>/dev/null &!
 }
 
-alias nocoffee="_nocoffee"
+keepingyouawake() {
+	open keepingyouawake:///activate
+}
