@@ -59,11 +59,11 @@ export CLICOLOR="yes"
 # export PROMPT_EOL_MARK='%{$bg[red]%}%{$fg[white]%}%%%{$reset_color%}'
 
 # Set default editor based on SSH
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='rmate --wait'
-else
-  export EDITOR='subl --wait'
-fi
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='rmate --wait'
+# else
+#   export EDITOR='subl --wait'
+# fi
 
 # create a zkbd compatible hash;
 # to add other keys to this hash, see: man 5 terminfo
