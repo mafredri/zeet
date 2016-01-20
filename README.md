@@ -2,6 +2,10 @@
 
 My personal zsh setup, ready for checkout on any machine.
 
+## Features
+
+* Automatically updates itself in the background, non-blocking.
+
 ## Setup
 
 Start zsh and execute the following commands:
