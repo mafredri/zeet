@@ -1,8 +1,6 @@
 #!/usr/bin/env zsh
 
 alias grep='grep --color=auto'
-alias igrep='grep -i'
-
 alias sshf='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
 # wget http://nion.modprobe.de/mostlike.txt
@@ -29,7 +27,7 @@ code() {
 
 nocoffee() {
 	local sleep_time=7
-	[[ "$1" != "" ]] && sleep_time=$1
+	[[ -z $1 ]] && sleep_time=$1
 	echo "Notification in $sleep_time minutes..."
 	sleep_time=$(( sleep_time * 60 ))
 	(
