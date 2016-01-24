@@ -125,12 +125,8 @@ fi
 # Source a local zshrc if available
 [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
 
+# Activate extras in a disowned child process
 $ZSH/extra.zsh &!
-
-# if whence pyenv > /dev/null; then
-# 	eval "$(pyenv init -)"
-# 	eval "$(pyenv virtualenv-init -)"
-# fi
 
 # Load pure prompt
 prompt pure
