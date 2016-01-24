@@ -108,6 +108,11 @@ bindkey '\ee' edit-command-line
 # [Esc-w] - Kill from the cursor to the beginning of line
 bindkey '\ew' kill-region
 
+# Set [Opt+Right] to forward word
+bindkey '\e[1;9C' forward-word
+# Set [Opt+Left] to backward word
+bindkey '\e[1;9D' backward-word
+
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
 function zle-line-init () {
