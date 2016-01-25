@@ -26,8 +26,7 @@ code() {
 }
 
 nocoffee() {
-	local sleep_time=7
-	[[ -z $1 ]] && sleep_time=$1
+	local sleep_time=${1:-7}
 	echo "Notification in $sleep_time minutes..."
 	sleep_time=$(( sleep_time * 60 ))
 	(
