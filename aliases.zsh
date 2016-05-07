@@ -21,10 +21,6 @@ case $OSTYPE in
 		;;
 esac
 
-code() {
-	VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $*
-}
-
 nocoffee() {
 	local sleep_time=${1:-7}
 	echo "Notification in $sleep_time minutes..."
