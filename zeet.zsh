@@ -105,9 +105,14 @@ bindkey '\ee' edit-command-line
 bindkey '\ew' kill-region
 
 # Set [Opt+Right] to forward word
-bindkey '\e[1;9C' forward-word
+bindkey '^[[1;9C' forward-word
 # Set [Opt+Left] to backward word
-bindkey '\e[1;9D' backward-word
+bindkey '^[[1;9D' backward-word
+
+if [[ -n $TMUX ]]; then
+	bindkey "^[[1;3C" forward-word
+	bindkey "^[[1;3D" backward-word
+fi
 
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
