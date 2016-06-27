@@ -1,7 +1,10 @@
 #!/usr/bin/env zsh
 
-alias grep='grep --color=auto'
 alias sshf='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+
+if grep --color=auto test<<<test &>/dev/null; then
+	alias grep='grep --color=auto'
+fi
 
 # wget http://nion.modprobe.de/mostlike.txt
 # tic mostlike.txt && rm mostlike.txt
@@ -20,17 +23,3 @@ case $OSTYPE in
 		alias ls='ls --color=auto -Fh'
 		;;
 esac
-
-nocoffee() {
-	local sleep_time=${1:-7}
-	echo "Notification in $sleep_time minutes..."
-	sleep_time=$(( sleep_time * 60 ))
-	(
-		sleep $sleep_time
-		osascript -e 'tell app "System Events" to display alert "Your coffee is done!" message "Go get your coffee!" as critical'
-	) &>/dev/null &!
-}
-
-keepingyouawake() {
-	open keepingyouawake:///activate
-}
