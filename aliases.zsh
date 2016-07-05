@@ -2,6 +2,8 @@
 
 alias sshf='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
+# Feature test the --color parameter since busybox
+# doesn't support it.
 if grep --color=auto test<<<test &>/dev/null; then
 	alias grep='grep --color=auto'
 fi
