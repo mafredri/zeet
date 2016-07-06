@@ -125,6 +125,9 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
 	zle -N zle-line-finish
 fi
 
+# Enable iTerm2 shell integration
+source $ZSH/misc/iterm2_shell_integration.zsh
+
 # Source a local zshrc if available
 [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
 
