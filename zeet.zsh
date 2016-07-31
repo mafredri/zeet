@@ -18,6 +18,7 @@ source $ZSH/aliases.zsh
 source $ZSH/completion.zsh
 source $ZSH/history.zsh
 source $ZSH/update.zsh
+source $ZSH/dircycle.zsh
 
 # Modules
 zmodload zsh/terminfo
