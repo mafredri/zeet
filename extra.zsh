@@ -12,6 +12,9 @@ compile_zcompdump() {
 	# Make sure zcompdump files have been compiled
 	for zcd in ~/.zcompdump*~*.zwc; do
 		if (( $(zstat +mtime $zcd) > $(zstat +mtime $zcd.zwc 2>/dev/null || print 0) )); then
+			# zcompile does not support file names with a ’-character, so this
+			# might produce an error on Macs that seem to have it by default in
+			# their hostname.
 			zcompile $zcd
 		fi
 	done
