@@ -6,15 +6,13 @@
 #
 
 compile_zcompdump() {
-	setopt local_options
-	setopt null_glob
-	setopt extended_glob
+	setopt local_options null_glob extended_glob no_sh_word_split
 
 	zmodload zsh/stat
 	# Make sure zcompdump files have been compiled
 	for zcd in ~/.zcompdump*~*.zwc; do
-		if (( $(zstat +mtime "$zcd") > $(zstat +mtime "$zcd.zwc" 2>/dev/null || print 0) )); then
-			zcompile "$zcd"
+		if (( $(zstat +mtime $zcd) > $(zstat +mtime $zcd.zwc 2>/dev/null || print 0) )); then
+			zcompile $zcd
 		fi
 	done
 }
