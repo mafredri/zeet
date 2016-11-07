@@ -20,6 +20,7 @@ man() {
 case $OSTYPE in
 	darwin*)
 		alias ls='ls -GFh'
+		alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
 		;;
 	linux-gnu)
 		alias ls='ls --color=auto -Fh'

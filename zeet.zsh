@@ -126,9 +126,6 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
 	zle -N zle-line-finish
 fi
 
-# Enable iTerm2 shell integration
-source $ZSH/misc/iterm2_shell_integration.zsh
-
 # Source a local zshrc if available
 [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
 
@@ -137,6 +134,9 @@ $ZSH/extra.zsh &!
 
 # Load pure prompt
 prompt pure
+
+# Enable iTerm2 shell integration
+source $ZSH/misc/iterm2_shell_integration.zsh
 
 source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
