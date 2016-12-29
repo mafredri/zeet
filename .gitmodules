@@ -16,3 +16,6 @@
 [submodule "modules/zsh-async"]
 	path = modules/zsh-async
 	url = https://github.com/mafredri/zsh-async.git
+[submodule "modules/zsh-autosuggestions"]
+	path = modules/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions.git

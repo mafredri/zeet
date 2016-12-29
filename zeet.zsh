@@ -57,8 +57,6 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export CLICOLOR="yes"
 
-# export PROMPT_EOL_MARK='%{$bg[red]%}%{$fg[white]%}%%%{$reset_color%}'
-
 # Set default editor based on SSH
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='rmate --wait'
@@ -138,10 +136,14 @@ prompt pure
 # Enable iTerm2 shell integration
 source $ZSH/misc/iterm2_shell_integration.zsh
 
+# source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
+
+source $ZSH/modules/z/z.sh
+
 source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 [[ -n $key[Up]   ]] && bindkey $key[Up]   history-substring-search-up
 [[ -n $key[Down] ]] && bindkey $key[Down] history-substring-search-down
 
-source $ZSH/modules/z/z.sh
