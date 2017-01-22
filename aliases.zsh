@@ -21,8 +21,25 @@ case $OSTYPE in
 	darwin*)
 		alias ls='ls -GFh'
 		alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
+		alias code='code --goto'
+		PSQL_EDITOR='code --wait'
+
+		# Prefer `df` from Homebrew `coreutils`.
+		(( $+commands[gdf] )) && alias df=gdf
+
+		# For Homebrew packages.
+		export HOMEBREW_EDITOR='code --wait'
+		export ANDROID_HOME=/usr/local/opt/android-sdk  # android
+		export MONO_GAC_PREFIX=/usr/local               # mono
 		;;
-	linux-gnu)
+	linux-gnu*)
 		alias ls='ls --color=auto -Fh'
+		PSQL_EDITOR='vim'
 		;;
 esac
+
+export PSQL_EDITOR
+alias psql='PAGER="less --chop-long-lines" psql'
+
+# Add types to ripgrep.
+alias rg='rg --type-add "scss:*.scss" --type-add "sass:*.sass"'
