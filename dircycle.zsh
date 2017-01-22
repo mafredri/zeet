@@ -7,7 +7,6 @@ _update-cycled() {
 	builtin pushd -q $1 &>/dev/null
 
 	# Trigger a prompt update for pure
-	prompt_pure_check_git_arrows
 	vcs_info
 	prompt_pure_async_tasks
 	prompt_pure_preprompt_render
