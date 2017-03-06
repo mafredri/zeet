@@ -40,7 +40,7 @@ setopt auto_cd              # automatically cd into directory without even when 
 setopt cdablevars           # enable cd VARNAME/dir/inside/var (without needing $)
 
 setopt no_transient_rprompt # do not remove right prompt from display when accepting a command line.
-setopt prompt_subst         # turn on various expansions in prompts
+#setopt prompt_subst         # turn on various expansions in prompts
 setopt multios              # enable multiple redirections
 setopt extended_glob
 setopt glob_dots            # don't require a leading dot for matching "hidden" files

@@ -38,6 +38,8 @@ case $OSTYPE in
 		;;
 esac
 
+(( $+commands[nvim] )) && alias vim=nvim
+
 export PSQL_EDITOR
 alias psql='PAGER="less --chop-long-lines" psql'
 
