@@ -22,14 +22,18 @@ source $ZSH/dircycle.zsh
 
 # Modules
 zmodload zsh/terminfo
-autoload -Uz promptinit && promptinit
-autoload -Uz colors && colors
-autoload -Uz url-quote-magic && zle -N self-insert url-quote-magic
-autoload -Uz select-word-style && select-word-style bash
+autoload -Uz promptinit; promptinit
+autoload -Uz colors; colors
+autoload -Uz select-word-style; select-word-style bash
+autoload -Uz url-quote-magic
+autoload -Uz bracketed-paste-magic
 autoload -Uz zmv
-zle -N hst
 
-autoload brew-cask && brew-cask
+zle -N hst
+zle -N self-insert url-quote-magic
+zle -N bracketed-paste bracketed-paste-magic
+
+autoload -Uz brew-cask; brew-cask
 
 setopt auto_pushd
 setopt pushd_ignore_dups
@@ -37,10 +41,10 @@ setopt pushdminus
 
 setopt auto_name_dirs
 setopt auto_cd              # automatically cd into directory without even when 'cd' is not present
-setopt cdablevars           # enable cd VARNAME/dir/inside/var (without needing $)
+setopt cdable_vars          # enable cd VARNAME/dir/inside/var (without needing $)
 
 setopt no_transient_rprompt # do not remove right prompt from display when accepting a command line.
-#setopt prompt_subst         # turn on various expansions in prompts
+setopt prompt_subst         # turn on various expansions in prompts
 setopt multios              # enable multiple redirections
 setopt extended_glob
 setopt glob_dots            # don't require a leading dot for matching "hidden" files
