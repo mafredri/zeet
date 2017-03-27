@@ -33,8 +33,6 @@ zle -N hst
 zle -N self-insert url-quote-magic
 zle -N bracketed-paste bracketed-paste-magic
 
-autoload -Uz brew-cask; brew-cask
-
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushdminus
