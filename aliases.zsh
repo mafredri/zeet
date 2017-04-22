@@ -39,6 +39,7 @@ case $OSTYPE in
 esac
 
 (( $+commands[nvim] )) && alias vim=nvim
+(( $+commands[hub] )) && alias git=hub
 
 export PSQL_EDITOR
 alias psql='PAGER="less --chop-long-lines" psql'
