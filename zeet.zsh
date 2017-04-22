@@ -19,6 +19,7 @@ source $ZSH/completion.zsh
 source $ZSH/history.zsh
 source $ZSH/update.zsh
 source $ZSH/dircycle.zsh
+source $ZSH/completions/_ng
 
 # Modules
 zmodload zsh/terminfo
