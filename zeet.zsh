@@ -133,13 +133,13 @@ fi
 # Activate extras in a disowned child process
 $ZSH/extra.zsh &!
 
-# Load pure prompt
-prompt pure
-
 # Enable iTerm2 shell integration
 source $ZSH/misc/iterm2_shell_integration.zsh
 
-# source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
+# Load pure prompt
+prompt pure
+
+source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 
 source $ZSH/modules/z/z.sh

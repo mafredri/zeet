@@ -7,7 +7,7 @@ _update-cycled() {
 	builtin pushd -q $1 &>/dev/null
 
 	# Trigger a prompt update for pure
-	vcs_info
+	# vcs_info
 	prompt_pure_async_tasks
 	prompt_pure_preprompt_render
 }
