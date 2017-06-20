@@ -20,6 +20,7 @@ man() {
 case $OSTYPE in
 	darwin*)
 		alias ls='ls -GFh'
+		alias srm='rm -P'
 		alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
 		alias code='code --goto'
 		PSQL_EDITOR='code --wait'
