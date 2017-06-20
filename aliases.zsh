@@ -51,6 +51,5 @@ alias rg='rg --type-add "scss:*.scss" --type-add "sass:*.sass"'
 _todo() {
 	rg 'TODO(\([^)]*\)|:)' --pretty "$@" | ${PAGER:-less} -r
 }
-alias todo='_todo'
+alias todo='_todo --glob "!vendor/**/*.go"'
 alias todo-c='todo -B 3 -A 5'
-
