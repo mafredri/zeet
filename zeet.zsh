@@ -10,6 +10,7 @@ fpath=(
 	$ZSH/functions(N)
 	$ZSH/completions(N)
 	$ZSH/modules/zsh-completions/src(N)
+	$ZSH/modules/go-zsh-completions/src(N)
 	$fpath
 )
 fignore=(.DS_Store $fignore)
