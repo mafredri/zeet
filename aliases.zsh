@@ -53,3 +53,29 @@ _todo() {
 }
 alias todo='_todo --glob "!vendor/**/*.go"'
 alias todo-c='todo -B 3 -A 5'
+
+_chrome_runner() { _chrome "$@" &; }
+_chrome() {
+	setopt localoptions localtraps noshwordsplit
+
+	local chrome=$1; shift
+	local userdata=$(mktemp -d)
+	local -a default_args=(
+		--remote-debugging-port=9222
+		--disable-gpu
+		--disable-translate
+		--disable-sync
+		--disable-default-apps
+		--no-first-run
+		--no-default-browser-check
+		--user-data-dir=$userdata
+		--window-size=1000,600
+	)
+
+	trap 'exit 0' INT
+	trap "print chrome: cleaning up...; rm -rf '$userdata'" EXIT
+	$chrome $default_args "$@" about:blank
+}
+
+alias chrome='_chrome_runner /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+alias chrome-canary='_chrome_runner /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
