@@ -17,8 +17,18 @@ man() {
 	TERMINFO=$HOME/.terminfo LESS=C TERM=mostlike PAGER=less command man $@
 }
 
+_open() {
+	_open_forklift "$@" || command open "$@"
+}
+
+_open_forklift() {
+	[[ -d $1 ]] && [[ -d /Applications/ForkLift.app ]] || return
+	command open -a ForkLift "$@"
+}
+
 case $OSTYPE in
 	darwin*)
+		alias open='_open'
 		alias ls='ls -GFh'
 		alias srm='rm -P'
 		alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
