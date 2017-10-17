@@ -62,11 +62,15 @@ export LC_ALL=en_US.UTF-8
 export CLICOLOR="yes"
 
 # Set default editor based on SSH
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='rmate --wait'
-# else
-#   export EDITOR='subl --wait'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+	# export EDITOR='rmate --wait'
+else
+	if (( $+commands[code] )); then
+		export EDITOR='code --wait'
+	elif (( $+commands[nvim] )); then
+		export EDITOR=nvim
+	fi
+fi
 
 # create a zkbd compatible hash;
 # to add other keys to this hash, see: man 5 terminfo
