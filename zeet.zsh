@@ -144,6 +144,8 @@ source $ZSH/misc/iterm2_shell_integration.zsh
 # Load pure prompt
 prompt pure
 
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+
 source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 
@@ -154,4 +156,3 @@ source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zs
 
 [[ -n $key[Up]   ]] && bindkey $key[Up]   history-substring-search-up
 [[ -n $key[Down] ]] && bindkey $key[Down] history-substring-search-down
-
