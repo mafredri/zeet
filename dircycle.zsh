@@ -8,8 +8,9 @@ _update-cycled() {
 
 	# Trigger a prompt update for pure
 	# vcs_info
+	zle .reset-prompt
 	prompt_pure_async_tasks
-	prompt_pure_preprompt_render
+	#prompt_pure_preprompt_render
 }
 
 insert-cycledleft() { _update-cycled +1 || true }
