@@ -146,7 +146,7 @@ prompt pure
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
-source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 
 source $ZSH/modules/z/z.sh
