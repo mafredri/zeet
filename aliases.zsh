@@ -39,6 +39,31 @@ case $OSTYPE in
 		;;
 esac
 
+# Copy to clipboard on remote machines using OSC 52.
+#
+# For iTerm2 we must enable:
+# Preferences > General > "Applications in terminal may access clipboard"
+#
+# OSC 52 works in iTerm2, but we could also use the iTerm specific:
+# print -n "\e]1337;Copy=;$(base64 $args /dev/stdin)\007"
+remote_pbcopy() {
+	local copy args=()
+	if [[ $OSTYPE != darwin* ]]; then
+		# The base64 must be a single line.
+		args+=(--wrap=0)
+	fi
+
+	# OSC 52 operates the clipboard, c is for copy.
+	copy="\e]52;c;$(base64 $args /dev/stdin)"
+
+	if [[ -n $TMUX ]]; then
+		# Inside tmux, we must escape the construct.
+		copy="\ePtmux;\e$copy\e\e\\\\"
+	fi
+	print -n "${copy}\e\\"
+}
+
+(( $+commands[pbcopy] )) || alias pbcopy=remote_pbcopy
 (( $+commands[nvim] )) && alias vim=nvim
 (( $+commands[hub] )) && alias git=hub
 
