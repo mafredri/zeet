@@ -70,7 +70,10 @@ remote_pbcopy() {
 export PSQL_EDITOR
 alias psql='PAGER="less --chop-long-lines" psql'
 
-# Add types to ripgrep.
+_godoc-open() {
+	open http://localhost:6060/pkg/${PWD#$GOPATH/src/}
+}
+alias godoc-open="_godoc-open"
 
 _todo() {
 	rg 'TODO(\([^)]*\)|:)' --pretty "$@" | ${PAGER:-less} -r
