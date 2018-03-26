@@ -75,6 +75,20 @@ _godoc-open() {
 }
 alias godoc-open="_godoc-open"
 
+_logssh() {
+	[[ -d ~/.ssh/log ]] || mkdir ~/.ssh/log
+	chmod 0700 ~/.ssh/log
+
+	local -A config
+	config=($(ssh -G $@ | awk '/^(user|hostname|port)\ /'))
+	local file
+	file=~/.ssh/log/$(date "+${config[hostname]}:${config[port]}@${config[user]}_%Y-%m-%dT%H:%M:%S.log")
+	touch $file && chmod 0600 $file
+
+	ssh $@ | tee -a $file
+}
+alias logssh="_logssh"
+
 _todo() {
 	rg 'TODO(\([^)]*\)|:)' --pretty "$@" | ${PAGER:-less} -r
 }
