@@ -138,11 +138,23 @@ fi
 # Activate extras in a disowned child process
 $ZSH/extra.zsh &!
 
+IS_SERIAL=0
+case $TTY in
+	/dev/ttyS[0-9]*|/dev/ttyUSB[0-9]*)
+		IS_SERIAL=1
+		;;
+esac
+
 # Enable iTerm2 shell integration
-source $ZSH/misc/iterm2_shell_integration.zsh
+(( !IS_SERIAL )) && source $ZSH/misc/iterm2_shell_integration.zsh
 
 # Load pure prompt
 prompt pure
+
+(( IS_SERIAL )) && {
+	PROMPT_PURE_SYMBOL='>'
+	prompt_pure_set_title() {}
+}
 
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
 
