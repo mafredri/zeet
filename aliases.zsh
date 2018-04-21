@@ -89,11 +89,15 @@ _logssh() {
 }
 alias logssh="_logssh"
 
-_todo() {
-	rg 'TODO(\([^)]*\)|:)' --pretty "$@" | ${PAGER:-less} -r
+_todo_or_note() {
+	local action=$1; shift
+	{rg $action' ?(\([^)]*\)|:)' --pretty "$@" || print "No ${action}s found.\n"} \
+		| ${PAGER:-less} -C -R
 }
-alias todo='_todo --glob "!vendor/**/*.go"'
+alias todo='_todo_or_note TODO --glob "!vendor/**/*.go"'
 alias todo-c='todo -B 3 -A 5'
+alias note='_todo_or_note NOTE --glob "!vendor/**/*.go"'
+alias note-c='note -B 3 -A 5'
 
 _chrome_runner() { _chrome "$@" &; }
 _chrome() {
