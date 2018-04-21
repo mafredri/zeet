@@ -124,3 +124,53 @@ _chrome() {
 
 alias chrome='_chrome_runner /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 alias chrome-canary='_chrome_runner /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
+
+asdev() {
+	(source ~/Projects/asustor-packages/.envrc; command asdev $@)
+}
+
+install_go() {
+	parse() {
+		grep -E -o "(go1[^>]*\ \(released [0-9]{4}/[0-9]{2}/[0-9]{2}\))" \
+			| sort -t. -k 1,1nr -k 2,2nr -k 3,3nr
+	}
+	local release="https://golang.org/doc/devel/release.html"
+	if which curl >/dev/null; then
+		fetch() { curl -s -L "$@"; }
+	elif which wget >/dev/null; then
+		fetch() { wget -q -O- "$@"; }
+	else
+		echo "error: curl or wget must be present"
+		exit 1
+	fi
+
+	fetch "$release" | parse
+
+	local version="$1" os arch
+	if ! echo $version | grep -q "^go"; then
+		version="go${version}"
+	fi
+	os="$(uname -s | tr '[A-Z]' '[a-z]')"
+	arch="$(uname -m)"
+	case "$arch" in
+	x86_64)
+		arch=amd64
+		;;
+	armv[6-7]l)
+		arch=armv6l
+		;;
+	*)
+		echo "error: unsupported arch $arch"
+		exit 1
+		;;
+	esac
+
+	tmpdir="$(mktemp -d)"
+	(cd $tmpdir;
+		fetch https://dl.google.com/go/${version}.${os}-${arch}.tar.gz \
+			| tar -xzf -
+		mv go /usr/local/go
+		cd /usr/local/bin
+		ln -s ../go/bin/* ./
+	)
+}
