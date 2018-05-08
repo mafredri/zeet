@@ -171,7 +171,9 @@ bindkey '^ ' autosuggest-accept
 
 source $ZSH/modules/z/z.sh
 
-source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSH/modules/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source $ZSH/modules/history-search-multi-word/history-search-multi-word.plugin.zsh
+# source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 [[ -n $key[Up]   ]] && bindkey $key[Up]   history-substring-search-up
