@@ -5,6 +5,9 @@ ZSH=~/.zsh
 _Z_NO_RESOLVE_SYMLINKS=1
 ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
+# Faster response for VI-mode.
+export KEYTIMEOUT=1
+
 # Set fpath and fignore for compinit (completions)
 fpath=(
 	$ZSH/functions(N)
