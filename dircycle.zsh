@@ -7,10 +7,8 @@ _update-cycled() {
 	builtin pushd -q $1 &>/dev/null
 
 	# Trigger a prompt update for pure
-	# vcs_info
 	zle .reset-prompt
 	prompt_pure_async_tasks
-	#prompt_pure_preprompt_render
 }
 
 insert-cycledleft() { _update-cycled +1 || true }

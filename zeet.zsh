@@ -44,7 +44,6 @@ setopt auto_cd              # automatically cd into directory without even when 
 setopt cdable_vars          # enable cd VARNAME/dir/inside/var (without needing $)
 
 setopt no_transient_rprompt # do not remove right prompt from display when accepting a command line.
-setopt prompt_subst         # turn on various expansions in prompts
 setopt multios              # enable multiple redirections
 setopt extended_glob
 setopt glob_dots            # don't require a leading dot for matching "hidden" files
@@ -148,6 +147,9 @@ esac
 # Enable iTerm2 shell integration
 (( !IS_SERIAL )) && source $ZSH/misc/iterm2_shell_integration.zsh
 
+# Load direnv hook before Pure (hook order).
+(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+
 # Load pure prompt
 prompt pure
 
@@ -156,10 +158,13 @@ prompt pure
 	prompt_pure_set_title() {}
 }
 
-(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
-
-#source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
+if [[ $ZSH_VERSION > 5.1 ]]; then
+	# Only use async suggestions on more modern versions of ZSH.
+	ZSH_AUTOSUGGEST_USE_ASYNC=true
+fi
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
+bindkey '^ ' autosuggest-accept
 
 source $ZSH/modules/z/z.sh
 
