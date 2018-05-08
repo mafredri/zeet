@@ -22,3 +22,9 @@
 [submodule "modules/go-zsh-completions"]
 	path = modules/go-zsh-completions
 	url = https://github.com/zchee/go-zsh-completions
+[submodule "modules/fast-syntax-highlighting"]
+	path = modules/fast-syntax-highlighting
+	url = https://github.com/zdharma/fast-syntax-highlighting
+[submodule "modules/history-search-multi-word"]
+	path = modules/history-search-multi-word
+	url = https://github.com/zdharma/history-search-multi-word
