@@ -134,7 +134,6 @@ install_go() {
 		grep -E -o "(go1[^>]*\ \(released [0-9]{4}/[0-9]{2}/[0-9]{2}\))" \
 			| sort -t. -k 1,1nr -k 2,2nr -k 3,3nr
 	}
-	local release="https://golang.org/doc/devel/release.html"
 	if which curl >/dev/null; then
 		fetch() { curl -s -L "$@"; }
 	elif which wget >/dev/null; then
@@ -143,8 +142,12 @@ install_go() {
 		echo "error: curl or wget must be present"
 		exit 1
 	fi
-
-	fetch "$release" | parse
+	if [[ -z $1 ]] || [[ $1 == list ]]; then
+		local release="https://golang.org/doc/devel/release.html"
+		print "Fetching Go releases..."
+		fetch "$release" | parse
+		return
+	fi
 
 	local version="$1" os arch
 	if ! echo $version | grep -q "^go"; then
@@ -165,12 +168,23 @@ install_go() {
 		;;
 	esac
 
-	tmpdir="$(mktemp -d)"
-	(cd $tmpdir;
-		fetch https://dl.google.com/go/${version}.${os}-${arch}.tar.gz \
-			| tar -xzf -
-		mv go /usr/local/go
-		cd /usr/local/bin
-		ln -s ../go/bin/* ./
+	if [[ ! -e /usr/local/$version ]]; then
+		print "Fetching $version..."
+		tmpdir="$(mktemp -d)"
+		(cd $tmpdir;
+			fetch https://dl.google.com/go/${version}.${os}-${arch}.tar.gz \
+				| tar -xzf -
+			mv go /usr/local/$version
+			cd .. && rmdir $tmpdir
+		)
+	fi
+	print "Linking $version..."
+	(cd /usr/local && unlink go && ln -s $version go)
+	(cd /usr/local/bin || exit 1;
+		for bin in ../go/bin/*; do
+			unlink ${bin:t}
+			ln -s $bin ./
+		done
 	)
+	print "Done!"
 }
