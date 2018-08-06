@@ -28,6 +28,27 @@ case $OSTYPE in
 		# Prefer `df` from Homebrew `coreutils`.
 		(( $+commands[gdf] )) && alias df=gdf
 
+		# A site that has previously requested HTTP Strict Transport
+		# Security (HSTS) will permanently remain and removing
+		# HSTS.plist alone is insufficient as it's cached by
+		# nsurlstoraged... real handy. This is annyoing because you can
+		# no longer navigate to a http:// URL for the HSTS enabled site,
+		# even if the web server is running on a different port.
+		_reset_hsts() {
+			killall nsurlstoraged
+			rm ~/Library/Cookies/HSTS.plist
+			launchctl start /System/Library/LaunchAgents/com.apple.nsurlstoraged.plist
+		}
+		alias reset_hsts='_reset_hsts'
+
+		_battery() {
+			# 100%; charged; 0:00 remaining present: true
+			# 99%; charged; 0:00 remaining present: true
+			# 94%; AC attached; not charging present: true
+			pmset -g batt | egrep -o '[0-9:]+ remaining'
+		}
+		alias battery='_battery'
+
 		# For Homebrew packages.
 		export HOMEBREW_EDITOR='code --wait'
 		export ANDROID_HOME=/usr/local/opt/android-sdk  # android
