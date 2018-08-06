@@ -174,6 +174,7 @@ bindkey '^ ' autosuggest-accept
 source $ZSH/modules/z/z.sh
 
 source $ZSH/modules/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+FAST_HIGHLIGHT[use_async]=1
 source $ZSH/modules/history-search-multi-word/history-search-multi-word.plugin.zsh
 # source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
