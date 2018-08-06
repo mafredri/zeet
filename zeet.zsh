@@ -164,7 +164,9 @@ prompt pure
 source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
 if [[ $ZSH_VERSION > 5.1 ]]; then
 	# Only use async suggestions on more modern versions of ZSH.
-	ZSH_AUTOSUGGEST_USE_ASYNC=true
+
+	# Disable, seems to prevent Ctrl+C in som instances.
+	# ZSH_AUTOSUGGEST_USE_ASYNC=true
 fi
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 bindkey '^ ' autosuggest-accept
