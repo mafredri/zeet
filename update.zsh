@@ -40,10 +40,13 @@ _zeet_update_init() {
 }
 
 zeet_check_for_updates() {
+	if (( ! _ZEET_UPDATE_INIT )); then
+		_zeet_update_init
+	fi
 	async_job "zeet" _zeet_update $ZSH
 }
 
-if (( ! _ZEET_UPDATE_INIT )); then
-	_zeet_update_init
-	zeet_check_for_updates
-fi
+zmodload zsh/sched
+
+# Schedule update check to give initial prompt time to settle.
+sched +2 zeet_check_for_updates
