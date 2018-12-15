@@ -24,9 +24,11 @@ case $OSTYPE in
 		alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
 		alias code='code --goto'
 		PSQL_EDITOR='code --wait'
+		export LESS='-R'
 
 		# Prefer `df` from Homebrew `coreutils`.
 		(( $+commands[gdf] )) && alias df=gdf
+		(( $+commands[trash] )) && alias trash='trash -F'
 
 		# A site that has previously requested HTTP Strict Transport
 		# Security (HSTS) will permanently remain and removing
