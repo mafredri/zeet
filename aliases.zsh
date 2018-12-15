@@ -209,7 +209,7 @@ install_go() {
 		)
 	fi
 	print "Linking $version..."
-	(cd /usr/local && unlink go && ln -s $version go)
+	(cd /usr/local && unlink go; ln -s $version go)
 	(cd /usr/local/bin || exit 1;
 		for bin in ../go/bin/*; do
 			unlink ${bin:t}
