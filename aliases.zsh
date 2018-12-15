@@ -13,6 +13,8 @@ fi
 if test ! $(find $HOME/.terminfo -name mostlike 2>/dev/null); then
 	tic $ZSH/misc/mostlike.txt
 fi
+# By using a function instead of alias we can prevent the environment variables
+# being part of the command.
 man() {
 	TERMINFO=$HOME/.terminfo LESS=C TERM=mostlike PAGER=less command man $@
 }
