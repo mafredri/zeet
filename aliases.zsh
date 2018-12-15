@@ -218,3 +218,24 @@ install_go() {
 	)
 	print "Done!"
 }
+
+icanhazip() {
+	curl icanhazip.com
+}
+
+# ssh-key-modify-comment ~/.ssh/id_ed25519 "Watch out for space dust"
+ssh-key-change-comment() {
+	local keyfile=$1
+	local comment=$2
+
+	# Changing comment (-c) requires the new OpenSSH format (-o converts).
+	ssh-keygen -f $keyfile -o -c -C $comment
+}
+
+gpg-ssh-list() {
+	gpg-connect-agent 'KEYINFO --ssh-list --ssh-fpr' /bye
+}
+gpg-ssh-delete-key() {
+	local keygrip=$1
+	gpg-connect-agent "DELETE_KEY $keygrip" /bye
+}
