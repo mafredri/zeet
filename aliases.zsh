@@ -55,6 +55,13 @@ case $OSTYPE in
 		export HOMEBREW_EDITOR='code --wait'
 		export ANDROID_HOME=/usr/local/opt/android-sdk  # android
 		export MONO_GAC_PREFIX=/usr/local               # mono
+
+		if [[ -e /Applications/OpenSCAD.app ]]; then
+			alias openscad=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
+		fi
+		if [[ -e /Applications/YubiKey\ Manager.app ]]; then
+			path+=(/Applications/YubiKey\ Manager.app/Contents/MacOS)
+		fi
 		;;
 	linux-gnu*)
 		alias ls='ls --color=auto -Fh'
