@@ -53,6 +53,15 @@ case $OSTYPE in
 		}
 		alias battery='_battery'
 
+		# Speed up Time Machine backups by allowing it to use
+		# more resources.
+		_backup_enable_NOS() {
+			# TODO(maf): Start backup if one isn't running?
+			sudo sysctl debug.lowpri_throttle_enabled=0
+			sudo renice -n -15 -p $(pgrep backupd\$)
+		}
+		alias backup_enable_NOS='_backup_enable_NOS'
+
 		# For Homebrew packages.
 		export HOMEBREW_EDITOR='code --wait'
 		export ANDROID_HOME=/usr/local/opt/android-sdk  # android
