@@ -147,7 +147,9 @@ case $TTY in
 		;;
 esac
 
-# Enable iTerm2 shell integration
+# Enable iTerm2 shell integration.
+# To update:
+#   curl -L https://iterm2.com/shell_integration/zsh -o $ZSH/misc/iterm2_shell_integration.zsh
 (( !IS_SERIAL )) && source $ZSH/misc/iterm2_shell_integration.zsh
 
 # Load direnv hook before Pure (hook order).
