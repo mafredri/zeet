@@ -88,20 +88,25 @@ esac
 # OSC 52 works in iTerm2, but we could also use the iTerm specific:
 # print -n "\e]1337;Copy=;$(base64 $args /dev/stdin)\007"
 remote_pbcopy() {
-	local copy args=()
+	local begin end args=()
 	if [[ $OSTYPE != darwin* ]]; then
 		# The base64 must be a single line.
 		args+=(--wrap=0)
 	fi
 
 	# OSC 52 operates the clipboard, c is for copy.
-	copy="\e]52;c;$(base64 $args /dev/stdin)"
+	begin='\e]52;c;'
+	end='\a'
 
 	if [[ -n $TMUX ]]; then
 		# Inside tmux, we must escape the construct.
-		copy="\ePtmux;\e$copy\e\e\\\\"
+		begin="\ePtmux;\e${begin}"
+		end="${end}\e\\"
 	fi
-	print -n "${copy}\e\\"
+
+	print -n $begin
+	base64 $args /dev/stdin
+	print -n $end
 }
 
 (( $+commands[pbcopy] )) || alias pbcopy=remote_pbcopy
