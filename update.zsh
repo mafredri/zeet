@@ -44,7 +44,4 @@ zeet_check_for_updates() {
 	fi
 }
 
-zmodload zsh/sched
-
-# Schedule update check to give initial prompt time to settle.
-sched +1 zeet_check_for_updates
+zeet_check_for_updates
