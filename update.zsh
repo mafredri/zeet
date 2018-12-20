@@ -17,16 +17,14 @@ _zeet_update() {
 	return 1
 }
 
-_zeet_update_re_source() {
-	source ~/.zshrc
+_zeet_update_replace_shell() {
+	exec $SHELL
 }
 
 _zeet_update_callback() {
 	if [[ $2 == 0 ]]; then
-		# use zsh/sched to schedule re-sourcing of .zshrc 1 second from now,
-		# prevents current execution context from being interrupted
-		zmodload zsh/sched
-		sched +1 _zeet_update_re_source
+		# Update config on next prompt.
+		precmd_functions+=(_zeet_update_replace_shell)
 	fi
 	async_stop_worker "zeet"
 }
