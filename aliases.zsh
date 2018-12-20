@@ -85,8 +85,13 @@ esac
 # For iTerm2 we must enable:
 # Preferences > General > "Applications in terminal may access clipboard"
 #
-# OSC 52 works in iTerm2, but we could also use the iTerm specific:
-# print -n "\e]1337;Copy=;$(base64 $args /dev/stdin)\007"
+# OSC 52 works in iTerm2, but we could also use the iTerm specific codes, like
+# copy to pasteboard (system):
+#   print -n "\e]1337;Copy=;$(base64 $args /dev/stdin)\007"
+# Or via copy to clipboard:
+#   print -n '\e]1337;CopyToClipboard=\a'
+#   print 'My message without base64 encoding'
+#   print -n '\e]1337;EndCopy\a'
 remote_pbcopy() {
 	local begin end args=()
 	if [[ $OSTYPE != darwin* ]]; then
