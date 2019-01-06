@@ -19,6 +19,7 @@ zstyle ':completion:*'               menu select=2 _complete _ignored _approxima
 zstyle ':completion:*'               group-name ''
 zstyle ':completion:*'               verbose yes
 zstyle ':completion:*'               special-dirs true
+zstyle ':completion:*'               accept-exact-dirs true
 zstyle ':completion:*:descriptions'  format "%{${fg[yellow]}%}[ %d ]%{${reset_color}%}"
 zstyle ':completion:*:corrections'   format "%{${fg[yellow]}%}[ %d ]%{${reset_color}%} (errors %e)"
 zstyle ':completion:*:messages'      format $'\e[00;31m%d'
