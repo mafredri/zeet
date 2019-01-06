@@ -19,7 +19,7 @@ zstyle ':completion:*'               menu select=2 _complete _ignored _approxima
 zstyle ':completion:*'               group-name ''
 zstyle ':completion:*'               verbose yes
 zstyle ':completion:*'               special-dirs true
-zstyle ':completion:*'               accept-exact-dirs true  # Allow completion inside .zfs hidden directories.
+# zstyle ':completion:*'               accept-exact-dirs true  # Allow completion inside .zfs hidden directories.
 zstyle ':completion:*:descriptions'  format "%{${fg[yellow]}%}[ %d ]%{${reset_color}%}"
 zstyle ':completion:*:corrections'   format "%{${fg[yellow]}%}[ %d ]%{${reset_color}%} (errors %e)"
 zstyle ':completion:*:messages'      format $'\e[00;31m%d'
@@ -40,3 +40,15 @@ zstyle ':completion:*:original'      list-colors "=*=$color[red];$color[bold]"
 zstyle ':completion:*:parameters'    list-colors "=[^a-zA-Z]*=$color[red]"
 zstyle ':completion:*:aliases'       list-colors "=*=$color[green]"
 zstyle ':completion:*:*:*:users'     ignored-patterns "_*"
+
+# https://www.zsh.org/mla/users/2017/msg00370.html
+_get_zfs_fake_files() {
+	if [[ -e /proc/self/mountinfo ]]; then
+		reply+=($(awk -vOFS=: -vORS=' ' '$9 == "zfs" { print $5, ".zfs" }' /proc/self/mountinfo))
+	fi
+}
+_get_fake_files() {
+	reply=()
+	_get_zfs_fake_files
+}
+zstyle -e ':completion:*' fake-files _get_fake_files
