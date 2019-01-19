@@ -32,11 +32,13 @@ autoload -Uz colors; colors
 autoload -Uz select-word-style; select-word-style bash
 autoload -Uz url-quote-magic
 autoload -Uz bracketed-paste-magic
+autoload -Uz bracketed-paste-url-magic
 autoload -Uz zmv
 
 zle -N hst
 zle -N self-insert url-quote-magic
 zle -N bracketed-paste bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-url-magic
 
 setopt auto_pushd
 setopt pushd_ignore_dups
