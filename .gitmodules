@@ -28,3 +28,6 @@
 [submodule "modules/history-search-multi-word"]
 	path = modules/history-search-multi-word
 	url = https://github.com/zdharma/history-search-multi-word
+[submodule "modules/zsh-z"]
+	path = modules/zsh-z
+	url = https://github.com/agkozak/zsh-z.git
