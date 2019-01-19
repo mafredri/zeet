@@ -4,6 +4,29 @@ HISTFILE=~/.zsh_history
 HISTSIZE=8192
 SAVEHIST=8192
 
+history_ignore=(
+	'history'
+	'env'
+	'ls'
+	'ls -lha'
+	'ls -1'
+	'cd'
+	'cd ..'
+	'cd -'
+	'clear'
+	'pwd'
+	'exit'
+	'date'
+	'* --help'
+	'op'
+	'op *'
+	'pass'
+	'pass *'
+	'pony'
+	'pony *'
+)
+HISTORY_IGNORE="(${(j.|.)history_ignore})"
+
 setopt append_history         # append to $HISTFILE instead of replace
 setopt extended_history       # save additional info to $HISTFILE
 setopt hist_expire_dups_first
