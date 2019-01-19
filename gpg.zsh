@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # Avoid init unless gpg commands are available.
-if (( ! $+commands[gpgconf] )) || (( $+commands[gpg-connect-agent] )); then
+if (( ! $+commands[gpgconf] )) || (( ! $+commands[gpg-connect-agent] )); then
 	return 0
 fi
 
