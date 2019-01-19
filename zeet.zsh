@@ -23,6 +23,7 @@ source $ZSH/completion.zsh
 source $ZSH/history.zsh
 source $ZSH/update.zsh
 source $ZSH/dircycle.zsh
+source $ZSH/gpg.zsh
 
 # Modules
 zmodload zsh/terminfo
@@ -177,8 +178,6 @@ if (( IS_SERIAL )); then
 	PURE_PROMPT_SYMBOL='>'
 	prompt_pure_set_title() {}
 fi
-
-source $ZSH/gpg.zsh
 
 # Source a local zshrc, if available.
 [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
