@@ -11,8 +11,8 @@ My personal zsh setup, ready for checkout on any machine.
 Start zsh and execute the following commands:
 
 ```shell
-git clone --quiet https://github.com/mafredri/zeet.git ~/.zsh &&
-(cd ~/.zsh && git submodule update --init --quiet) &&
-echo "source ~/.zsh/zeet.zsh" >> ~/.zshrc &&
-source ~/.zshrc && echo "Installation complete"
+git clone --quiet --recurse-submodules=. https://github.com/mafredri/zeet.git ~/.zsh \
+	&& echo "source ~/.zsh/zeet.zsh" >> ~/.zshrc \
+	&& source ~/.zshrc \
+	&& echo "Installation complete"
 ```
