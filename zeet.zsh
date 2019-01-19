@@ -163,18 +163,9 @@ prompt pure
 	prompt_pure_set_title() {}
 }
 
-# Disable zsh-autosuggestions because it keeps mis-behaving:
-# - Rebinds ZLE widgets on every prompt
-# - Ctrl+C stops working occasionally
-# source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
-if [[ $ZSH_VERSION > 5.1 ]]; then
-	# Only use async suggestions on more modern versions of ZSH.
-
-	# Disable, seems to prevent Ctrl+C in som instances.
-	# ZSH_AUTOSUGGEST_USE_ASYNC=true
-fi
-# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
-# bindkey '^ ' autosuggest-accept
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
+source $ZSH/modules/zsh-autosuggestions.zsh
+bindkey '^ ' autosuggest-accept
 
 # Backup and restore $fpath because zsh-z adds itself.
 fpath_bak=($fpath)
