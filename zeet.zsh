@@ -178,6 +178,8 @@ prompt pure
 	prompt_pure_set_title() {}
 }
 
+source $ZSH/gpg.zsh
+
 # Source a local zshrc, if available.
 [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
 
