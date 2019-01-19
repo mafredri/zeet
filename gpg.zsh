@@ -1,5 +1,10 @@
 #!/usr/bin/env zsh
 
+# Avoid init unless gpg commands are available.
+if (( ! $+commands[gpgconf] )) || (( $+commands[gpg-connect-agent] )); then
+	return 0
+fi
+
 # This will launch a new gpg-agent if one isn't running, unless a gpg-agent
 # extra-socket has been remote-forwarded.
 export GPG_TTY=$TTY
