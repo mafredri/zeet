@@ -144,7 +144,7 @@ case $OSTYPE in
 	linux-gnu*)
 		source $ZSH/aliases_linux.zsh
 
-		if [[ $(stat -c %d:%i /) != $(stat -c %d:%i /proc/1/root/.) ]]; then
+		if [[ $UID == 0 ]] && [[ $(stat -c %d:%i /) != $(stat -c %d:%i /proc/1/root/.) ]]; then
 			IS_CHROOT=1
 		fi
 		;;
