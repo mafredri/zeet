@@ -1,18 +1,9 @@
 [submodule "modules/pure"]
 	path = modules/pure
 	url = https://github.com/sindresorhus/pure.git
-[submodule "modules/z"]
-	path = modules/z
-	url = https://github.com/mafredri/z.git
 [submodule "modules/zsh-completions"]
 	path = modules/zsh-completions
 	url = https://github.com/zsh-users/zsh-completions.git
-[submodule "modules/zsh-history-substring-search"]
-	path = modules/zsh-history-substring-search
-	url = https://github.com/zsh-users/zsh-history-substring-search.git
-[submodule "modules/zsh-syntax-highlighting"]
-	path = modules/zsh-syntax-highlighting
-	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
 [submodule "modules/zsh-async"]
 	path = modules/zsh-async
 	url = https://github.com/mafredri/zsh-async.git
@@ -25,9 +16,9 @@
 [submodule "modules/fast-syntax-highlighting"]
 	path = modules/fast-syntax-highlighting
 	url = https://github.com/zdharma/fast-syntax-highlighting
-[submodule "modules/history-search-multi-word"]
-	path = modules/history-search-multi-word
-	url = https://github.com/zdharma/history-search-multi-word
 [submodule "modules/zsh-z"]
 	path = modules/zsh-z
 	url = https://github.com/agkozak/zsh-z.git
+[submodule "modules/zsh-history-substring-search"]
+	path = modules/zsh-history-substring-search
+	url = https://github.com/zsh-users/zsh-history-substring-search.git

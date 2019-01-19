@@ -3,7 +3,6 @@
 ZSH=~/.zsh
 # Configure Z before initializing below
 _Z_NO_RESOLVE_SYMLINKS=1
-ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 
 # Faster response for VI-mode.
 export KEYTIMEOUT=1
