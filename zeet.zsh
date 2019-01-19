@@ -173,9 +173,8 @@ source $ZSH/modules/zsh-z/zsh-z.plugin.zsh
 fpath=($fpath_bak)
 
 source $ZSH/modules/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-FAST_HIGHLIGHT[use_async]=1
-source $ZSH/modules/history-search-multi-word/history-search-multi-word.plugin.zsh
-# source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+FAST_HIGHLIGHT[use_async]=0
+
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
 
 [[ -n $key[Up]   ]] && bindkey $key[Up]   history-substring-search-up
