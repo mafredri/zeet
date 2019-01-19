@@ -139,8 +139,11 @@ fi
 IS_CHROOT=0
 case $OSTYPE in
 	darwin*)
+		source $ZSH/aliases_darwin.zsh
 		;;
 	linux-gnu*)
+		source $ZSH/aliases_linux.zsh
+
 		if [[ $(stat -c %d:%i /) != $(stat -c %d:%i /proc/1/root/.) ]]; then
 			IS_CHROOT=1
 		fi

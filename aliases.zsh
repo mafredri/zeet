@@ -1,84 +1,45 @@
 #!/usr/bin/env zsh
 
-alias sshf='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-
 # Feature test the --color parameter since busybox
 # doesn't support it.
 if grep --color=auto test<<<test &>/dev/null; then
 	alias grep='grep --color=auto'
 fi
 
-# wget http://nion.modprobe.de/mostlike.txt
-# tic mostlike.txt && rm mostlike.txt
-if test ! $(find $HOME/.terminfo -name mostlike 2>/dev/null); then
-	tic $ZSH/misc/mostlike.txt
-fi
+alias sshf='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+alias logssh=_logssh
+alias psql='PAGER="less --chop-long-lines" psql'
+alias godoc-open=_godoc-open
+alias remote_pbcopy=_remote_pbcopy
+
+alias todo='_todo_or_note TODO --glob "!vendor/**/*.go"'
+alias todo-c='todo -B 3 -A 5'
+alias note='_todo_or_note NOTE --glob "!vendor/**/*.go"'
+alias note-c='note -B 3 -A 5'
+
+alias chrome='_chrome_runner /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+alias chrome-canary='_chrome_runner /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
+alias install_go=_install_go
+alias icanhazip=_icanhazip
+
+(( $+commands[pbcopy] )) || alias pbcopy=remote_pbcopy
+(( $+commands[nvim] )) && alias vim=nvim
+(( $+commands[hub] )) && alias git=hub
+
 # By using a function instead of alias we can prevent the environment variables
 # being part of the command.
 man() {
+	_init_mostlike
 	TERMINFO=$HOME/.terminfo LESS=C TERM=mostlike PAGER=less command man $@
 }
 
-case $OSTYPE in
-	darwin*)
-		alias ls='ls -GFh'
-		alias srm='rm -P'
-		alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
-		alias code='code --goto'
-		PSQL_EDITOR='code --wait'
-		export LESS='-R'
-
-		# Prefer `df` from Homebrew `coreutils`.
-		(( $+commands[gdf] )) && alias df=gdf
-		(( $+commands[trash] )) && alias trash='trash -F'
-
-		# A site that has previously requested HTTP Strict Transport
-		# Security (HSTS) will permanently remain and removing
-		# HSTS.plist alone is insufficient as it's cached by
-		# nsurlstoraged... real handy. This is annyoing because you can
-		# no longer navigate to a http:// URL for the HSTS enabled site,
-		# even if the web server is running on a different port.
-		_reset_hsts() {
-			killall nsurlstoraged
-			rm ~/Library/Cookies/HSTS.plist
-			launchctl start /System/Library/LaunchAgents/com.apple.nsurlstoraged.plist
-		}
-		alias reset_hsts='_reset_hsts'
-
-		_battery() {
-			# 100%; charged; 0:00 remaining present: true
-			# 99%; charged; 0:00 remaining present: true
-			# 94%; AC attached; not charging present: true
-			pmset -g batt | egrep -o '[0-9:]+ remaining'
-		}
-		alias battery='_battery'
-
-		# Speed up Time Machine backups by allowing it to use
-		# more resources.
-		_backup_enable_NOS() {
-			# TODO(maf): Start backup if one isn't running?
-			sudo sysctl debug.lowpri_throttle_enabled=0
-			sudo renice -n -15 -p $(pgrep backupd\$)
-		}
-		alias backup_enable_NOS='_backup_enable_NOS'
-
-		# For Homebrew packages.
-		export HOMEBREW_EDITOR='code --wait'
-		export ANDROID_HOME=/usr/local/opt/android-sdk  # android
-		export MONO_GAC_PREFIX=/usr/local               # mono
-
-		if [[ -e /Applications/OpenSCAD.app ]]; then
-			alias openscad=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
-		fi
-		if [[ -e /Applications/YubiKey\ Manager.app ]]; then
-			path+=(/Applications/YubiKey\ Manager.app/Contents/MacOS)
-		fi
-		;;
-	linux-gnu*)
-		alias ls='ls --color=auto -Fh'
-		PSQL_EDITOR='vim'
-		;;
-esac
+# Mostlike color output for man pages.
+# wget http://nion.modprobe.de/mostlike.txt && tic mostlike.txt && rm mostlike.txt
+_init_mostlike() {
+	if [[ ! -e $HOME/.terminfo/*/mostlike(#qN) ]]; then
+		tic $ZSH/misc/mostlike.txt
+	fi
+}
 
 # Copy to clipboard on remote machines using OSC 52.
 #
@@ -92,7 +53,7 @@ esac
 #   print -n '\e]1337;CopyToClipboard=\a'
 #   print 'My message without base64 encoding'
 #   print -n '\e]1337;EndCopy\a'
-remote_pbcopy() {
+_remote_pbcopy() {
 	local begin end args=()
 	if [[ $OSTYPE != darwin* ]]; then
 		# The base64 must be a single line.
@@ -114,17 +75,10 @@ remote_pbcopy() {
 	print -n $end
 }
 
-(( $+commands[pbcopy] )) || alias pbcopy=remote_pbcopy
-(( $+commands[nvim] )) && alias vim=nvim
-(( $+commands[hub] )) && alias git=hub
-
-export PSQL_EDITOR
-alias psql='PAGER="less --chop-long-lines" psql'
 
 _godoc-open() {
 	open http://localhost:6060/pkg/${PWD#$GOPATH/src/}
 }
-alias godoc-open="_godoc-open"
 
 _logssh() {
 	[[ -d ~/.ssh/log ]] || mkdir ~/.ssh/log
@@ -138,17 +92,12 @@ _logssh() {
 
 	ssh $@ | tee -a $file
 }
-alias logssh="_logssh"
 
 _todo_or_note() {
 	local action=$1; shift
 	{rg $action' ?(\([^)]*\)|:)' --pretty "$@" || print "No ${action}s found.\n"} \
 		| ${PAGER:-less} -C -R
 }
-alias todo='_todo_or_note TODO --glob "!vendor/**/*.go"'
-alias todo-c='todo -B 3 -A 5'
-alias note='_todo_or_note NOTE --glob "!vendor/**/*.go"'
-alias note-c='note -B 3 -A 5'
 
 _chrome_runner() { _chrome "$@" &; }
 _chrome() {
@@ -173,14 +122,7 @@ _chrome() {
 	$chrome $default_args "$@" about:blank
 }
 
-alias chrome='_chrome_runner /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-alias chrome-canary='_chrome_runner /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
-
-asdev() {
-	(source ~/Projects/asustor-packages/.envrc; command asdev $@)
-}
-
-install_go() {
+_install_go() {
 	parse() {
 		grep -E -o "(go1[^>]*\ \(released [0-9]{4}/[0-9]{2}/[0-9]{2}\))" \
 			| sort -t. -k 1,1nr -k 2,2nr -k 3,3nr
@@ -240,7 +182,7 @@ install_go() {
 	print "Done!"
 }
 
-icanhazip() {
+_icanhazip() {
 	curl icanhazip.com
 }
 
