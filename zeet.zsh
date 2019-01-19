@@ -14,6 +14,7 @@ fpath=(
 	$ZSH/completions(N)
 	$ZSH/modules/zsh-completions/src(N)
 	$ZSH/modules/go-zsh-completions/src(N)
+	$ZSH/modules/zsh-z(N)
 	$fpath
 )
 fignore=(.DS_Store $fignore)
@@ -175,7 +176,10 @@ fi
 # ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 # bindkey '^ ' autosuggest-accept
 
-source $ZSH/modules/z/z.sh
+# Backup and restore $fpath because zsh-z adds itself.
+fpath_bak=($fpath)
+source $ZSH/modules/zsh-z/zsh-z.plugin.zsh
+fpath=($fpath_bak)
 
 source $ZSH/modules/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 FAST_HIGHLIGHT[use_async]=1
