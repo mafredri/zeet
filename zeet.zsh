@@ -149,10 +149,6 @@ case $OSTYPE in
 		;;
 esac
 
-if ((IS_CHROOT)); then
-	PURE_PROMPT_SYMBOL='(chroot) ❯'
-fi
-
 IS_SERIAL=0
 case $TTY in
 	/dev/ttyS[0-9]*|/dev/ttyUSB[0-9]*)
@@ -160,10 +156,12 @@ case $TTY in
 		;;
 esac
 
-# Enable iTerm2 shell integration.
+# Enable iTerm2 shell integration (before Pure).
 # To update:
 #   curl -L https://iterm2.com/shell_integration/zsh -o $ZSH/misc/iterm2_shell_integration.zsh
-(( !IS_SERIAL )) && source $ZSH/misc/iterm2_shell_integration.zsh
+if (( !IS_SERIAL )); then
+	source $ZSH/misc/iterm2_shell_integration.zsh
+fi
 
 # Load direnv hook before Pure (hook order).
 (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
@@ -171,11 +169,14 @@ esac
 # Load pure prompt
 prompt pure
 
-(( IS_SERIAL )) && {
+if (( IS_CHROOT )); then
+	PURE_PROMPT_SYMBOL='(chroot) ❯'
+fi
+if (( IS_SERIAL )); then
 	# Serial can't handle beautiful symbols or setting the title ;).
 	PURE_PROMPT_SYMBOL='>'
 	prompt_pure_set_title() {}
-}
+fi
 
 source $ZSH/gpg.zsh
 
