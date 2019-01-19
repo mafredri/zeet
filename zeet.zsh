@@ -136,11 +136,20 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
 	zle -N zle-line-finish
 fi
 
-# Source a local zshrc if available
-[[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
+IS_CHROOT=0
+case $OSTYPE in
+	darwin*)
+		;;
+	linux-gnu*)
+		if [[ $(stat -c %d:%i /) != $(stat -c %d:%i /proc/1/root/.) ]]; then
+			IS_CHROOT=1
+		fi
+		;;
+esac
 
-# Activate extras in a disowned child process
-$ZSH/extra.zsh &!
+if ((IS_CHROOT)); then
+	PURE_PROMPT_SYMBOL='(chroot) ❯'
+fi
 
 IS_SERIAL=0
 case $TTY in
@@ -161,9 +170,13 @@ esac
 prompt pure
 
 (( IS_SERIAL )) && {
-	PROMPT_PURE_SYMBOL='>'
+	# Serial can't handle beautiful symbols or setting the title ;).
+	PURE_PROMPT_SYMBOL='>'
 	prompt_pure_set_title() {}
 }
+
+# Source a local zshrc, if available.
+[[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 source $ZSH/modules/zsh-autosuggestions.zsh
@@ -181,3 +194,6 @@ source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zs
 
 [[ -n $key[Up]   ]] && bindkey $key[Up]   history-substring-search-up
 [[ -n $key[Down] ]] && bindkey $key[Down] history-substring-search-down
+
+# Activate extras in a disowned child process
+$ZSH/extra.zsh &!
