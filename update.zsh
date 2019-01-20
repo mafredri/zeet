@@ -27,6 +27,7 @@ _zeet_update_callback() {
 		precmd_functions+=(_zeet_update_replace_shell)
 	fi
 	async_stop_worker "zeet"
+	_ZEET_UPDATE_INIT=0
 }
 
 _zeet_update_init() {
@@ -37,11 +38,19 @@ _zeet_update_init() {
 	_ZEET_UPDATE_INIT=1
 }
 
+_zeet_precmd_update_init() {
+	add-zsh-hook -d precmd _zeet_precmd_update_init
+	zeet_check_for_updates
+}
+
 zeet_check_for_updates() {
 	if (( ! _ZEET_UPDATE_INIT )); then
 		_zeet_update_init
-		async_job "zeet" _zeet_update $ZSH
 	fi
+	async_job "zeet" _zeet_update $ZSH
 }
 
-zeet_check_for_updates
+# Check for updates after the prompt has initialized, this gives time for user
+# initialized environment variables to settle (say, SSH socket for example).
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _zeet_precmd_update_init
