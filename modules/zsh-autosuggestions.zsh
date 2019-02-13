@@ -3,7 +3,7 @@
 # Preventing async is part of the fix to prevent zsh-asug form causing
 # havoc on every precmd. If enabled, the "server" will be recreated on
 # every prompt.
-ZSH_AUTOSUGGEST_USE_ASYNC=false
+unset ZSH_AUTOSUGGEST_USE_ASYNC
 
 source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
 
