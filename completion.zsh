@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
 
-autoload -Uz compinit && compinit -i
 zmodload zsh/complist
 zmodload zsh/computil
 

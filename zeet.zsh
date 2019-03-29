@@ -18,14 +18,7 @@ fpath=(
 )
 fignore=(.DS_Store $fignore)
 
-source $ZSH/aliases.zsh
-source $ZSH/completion.zsh
-source $ZSH/history.zsh
-source $ZSH/update.zsh
-source $ZSH/dircycle.zsh
-source $ZSH/gpg.zsh
-
-# Modules
+# Modules and extra functionality.
 zmodload zsh/terminfo
 autoload -Uz promptinit; promptinit
 autoload -Uz colors; colors
@@ -35,11 +28,42 @@ autoload -Uz bracketed-paste-magic
 autoload -Uz bracketed-paste-url-magic
 autoload -Uz zmv
 
+IS_CHROOT=0
+case $OSTYPE in
+	darwin*)
+		source $ZSH/aliases_darwin.zsh
+		source $ZSH/completion_darwin.zsh
+		;;
+	linux-gnu*)
+		source $ZSH/aliases_linux.zsh
+
+		if [[ $UID == 0 ]] && [[ $(stat -c %d:%i /) != $(stat -c %d:%i /proc/1/root/.) ]]; then
+			IS_CHROOT=1
+		fi
+		;;
+esac
+
+IS_SERIAL=0
+case $TTY in
+	/dev/ttyS[0-9]*|/dev/ttyUSB[0-9]*)
+		IS_SERIAL=1
+		;;
+esac
+
+source $ZSH/aliases.zsh
+source $ZSH/completion.zsh
+source $ZSH/history.zsh
+source $ZSH/update.zsh
+source $ZSH/dircycle.zsh
+source $ZSH/gpg.zsh
+
+# Activate extra ZLE functionality.
 zle -N hst
 zle -N self-insert url-quote-magic
 zle -N bracketed-paste bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-url-magic
 
+# Misc options.
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt pushdminus
@@ -136,27 +160,6 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
 	zle -N zle-line-finish
 fi
 
-IS_CHROOT=0
-case $OSTYPE in
-	darwin*)
-		source $ZSH/aliases_darwin.zsh
-		;;
-	linux-gnu*)
-		source $ZSH/aliases_linux.zsh
-
-		if [[ $UID == 0 ]] && [[ $(stat -c %d:%i /) != $(stat -c %d:%i /proc/1/root/.) ]]; then
-			IS_CHROOT=1
-		fi
-		;;
-esac
-
-IS_SERIAL=0
-case $TTY in
-	/dev/ttyS[0-9]*|/dev/ttyUSB[0-9]*)
-		IS_SERIAL=1
-		;;
-esac
-
 # Enable iTerm2 shell integration (before Pure).
 # To update:
 #   curl -L https://iterm2.com/shell_integration/zsh -o $ZSH/misc/iterm2_shell_integration.zsh
@@ -186,11 +189,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 source $ZSH/modules/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
 
-# Backup and restore $fpath because zsh-z adds itself.
-fpath_bak=($fpath)
 source $ZSH/modules/zsh-z/zsh-z.plugin.zsh
-fpath=($fpath_bak)
-
 source $ZSH/modules/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 FAST_HIGHLIGHT[use_async]=0
 
@@ -198,6 +197,9 @@ source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zs
 
 [[ -n $key[Up]   ]] && bindkey $key[Up]   history-substring-search-up
 [[ -n $key[Down] ]] && bindkey $key[Down] history-substring-search-down
+
+# Run compinit last to catch all fpaths.
+autoload -Uz compinit; compinit -i
 
 # Activate extras in a disowned child process
 $ZSH/extra.zsh &!
