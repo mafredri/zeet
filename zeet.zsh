@@ -201,5 +201,5 @@ source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zs
 # Run compinit last to catch all fpaths.
 autoload -Uz compinit; compinit -i
 
-# Activate extras in a disowned child process
-$ZSH/extra.zsh &!
+# Load extras (like zcompdump to speed up opening a new shell).
+$ZSH/extra.zsh

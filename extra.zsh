@@ -20,4 +20,7 @@ compile_zcompdump() {
 	done
 }
 
-compile_zcompdump
+zmodload zsh/sched
+
+# Schedule to run after 1 second to avoid slowing down initial prompt rendering.
+sched +1 compile_zcompdump
