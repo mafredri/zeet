@@ -8,15 +8,12 @@
 compile_zcompdump() {
 	setopt local_options null_glob extended_glob no_sh_word_split
 
-	zmodload zsh/stat
-	# Make sure zcompdump files have been compiled
+	# Make sure zcompdump files have been compiled.
 	for zcd in ~/.zcompdump*~*.zwc; do
-		if (( $(zstat +mtime $zcd) > $(zstat +mtime $zcd.zwc 2>/dev/null || print 0) )); then
-			# zcompile does not support file names with a ’-character, so this
-			# might produce an error on Macs that seem to have it by default in
-			# their hostname.
-			zcompile $zcd
-		fi
+		# zcompile does not support file names with a ’-character, so this
+		# might produce an error on Macs that seem to have it by default in
+		# their hostname.
+		zcompile $zcd
 	done
 }
 
