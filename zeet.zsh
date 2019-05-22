@@ -202,4 +202,4 @@ source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zs
 autoload -Uz compinit; compinit -i
 
 # Load extras (like zcompdump to speed up opening a new shell).
-$ZSH/extra.zsh
+source $ZSH/extra.zsh
