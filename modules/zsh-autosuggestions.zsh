@@ -4,6 +4,7 @@
 # havoc on every precmd. If enabled, the "server" will be recreated on
 # every prompt.
 unset ZSH_AUTOSUGGEST_USE_ASYNC
+unset ZSH_AUTOSUGGEST_MANUAL_REBIND
 
 source $ZSH/modules/zsh-autosuggestions/zsh-autosuggestions.zsh
 
