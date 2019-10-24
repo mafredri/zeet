@@ -173,6 +173,8 @@ fi
 # Load pure prompt
 prompt pure
 
+source $ZSH/misc/pure_halloween.zsh
+
 if (( IS_CHROOT )); then
 	PURE_PROMPT_SYMBOL='(chroot) ❯'
 fi
