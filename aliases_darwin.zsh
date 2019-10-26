@@ -16,6 +16,7 @@ alias code='code --goto'
 alias reset_hsts='_reset_hsts'
 alias battery='_battery'
 alias backup_enable_NOS='_backup_enable_NOS'
+alias flush_dns='_flush_dns'
 
 if [[ -e /Applications/OpenSCAD.app ]]; then
 	alias openscad=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
@@ -52,5 +53,11 @@ _battery() {
 _backup_enable_NOS() {
 	# TODO(maf): Start backup if one isn't running?
 	sudo sysctl -w debug.lowpri_throttle_enabled=0
-	sudo renice -n -15 -p $(pgrep backupd\$)
+	sudo renice -n -19 -p $(pgrep backupd\$)
+	sudo renice -n -19 -p $(pgrep diskimages-helper\$)
+}
+
+_flush_dns() {
+	sudo dscacheutil -flushcache
+	sudo killall -HUP mDNSResponder
 }
