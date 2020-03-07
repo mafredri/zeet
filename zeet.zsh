@@ -192,8 +192,8 @@ source $ZSH/modules/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
 
 source $ZSH/modules/zsh-z/zsh-z.plugin.zsh
-source $ZSH/modules/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-FAST_HIGHLIGHT[use_async]=0
+
+source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
 
