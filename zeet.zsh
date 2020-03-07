@@ -1,8 +1,6 @@
 #!/usr/bin/env zsh
 
 ZSH=~/.zsh
-# Configure Z before initializing below
-_Z_NO_RESOLVE_SYMLINKS=1
 
 # Faster response for VI-mode.
 export KEYTIMEOUT=1
@@ -173,6 +171,16 @@ fi
 # Load pure prompt
 prompt pure
 
+# This clear screen widget allows Pure to re-render with its initial
+# newline by manually clearing the screen and placing the cursor on
+# line 4 so that the prompt is redisplayed on lines 2 and 3.
+custom_prompt_pure_clear_screen() {
+	zle -I                   # Enable output to terminal.
+	print -n '\e[2J\e[4;0H'  # Clear screen and move cursor to (4, 0).
+	zle .redisplay           # Redraw prompt.
+}
+zle -N clear-screen custom_prompt_pure_clear_screen
+
 source $ZSH/misc/pure_halloween.zsh
 
 if (( IS_CHROOT )); then
@@ -191,6 +199,8 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 source $ZSH/modules/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
 
+_Z_NO_RESOLVE_SYMLINKS=1
+ZSHZ_NO_RESOLVE_SYMLINKS=1
 source $ZSH/modules/zsh-z/zsh-z.plugin.zsh
 
 source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
