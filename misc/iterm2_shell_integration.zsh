@@ -12,17 +12,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+iterm2_printf() {
+  local fmt=$1
+  shift
+
+  if [[ -n $TMUX ]]; then
+    # Inside tmux, we must escape the construct.
+    fmt="\ePtmux;\e${fmt}\e\\"
+  fi
+
+  printf "$fmt" "$@"
+}
+
 if [[ -o interactive ]]; then
   if [ "$ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX""$TERM" != "screen" -a "$ITERM_SHELL_INTEGRATION_INSTALLED" = "" -a "$TERM" != linux -a "$TERM" != dumb ]; then
     ITERM_SHELL_INTEGRATION_INSTALLED=Yes
     ITERM2_SHOULD_DECORATE_PROMPT="1"
     # Indicates start of command output. Runs just before command executes.
     iterm2_before_cmd_executes() {
-      printf "\033]133;C;\007"
+      iterm2_printf "\033]133;C;\007"
     }
 
     iterm2_set_user_var() {
-      printf "\033]1337;SetUserVar=%s=%s\007" "$1" $(printf "%s" "$2" | base64 | tr -d '\n')
+      iterm2_printf "\033]1337;SetUserVar=%s=%s\007" "$1" $(printf "%s" "$2" | base64 | tr -d '\n')
     }
 
     # Users can write their own version of this method. It should call
@@ -37,25 +49,25 @@ if [[ -o interactive ]]; then
     fi
 
     iterm2_print_state_data() {
-      printf "\033]1337;RemoteHost=%s@%s\007" "$USER" "$iterm2_hostname"
-      printf "\033]1337;CurrentDir=%s\007" "$PWD"
+      iterm2_printf "\033]1337;RemoteHost=%s@%s\007" "$USER" "$iterm2_hostname"
+      iterm2_printf "\033]1337;CurrentDir=%s\007" "$PWD"
       iterm2_print_user_vars
     }
 
     # Report return code of command; runs after command finishes but before prompt
     iterm2_after_cmd_executes() {
-      printf "\033]133;D;%s\007" "$STATUS"
+      iterm2_printf "\033]133;D;%s\007" "$STATUS"
       iterm2_print_state_data
     }
 
     # Mark start of prompt
     iterm2_prompt_mark() {
-      printf "\033]133;A\007"
+      iterm2_printf "\033]133;A\007"
     }
 
     # Mark end of prompt
     iterm2_prompt_end() {
-      printf "\033]133;B\007"
+      iterm2_printf "\033]133;B\007"
     }
 
     # There are three possible paths in life.
@@ -103,7 +115,8 @@ if [[ -o interactive ]]; then
       ITERM2_SHOULD_DECORATE_PROMPT=""
 
       # Add our escape sequences just before the prompt is shown.
-      if [[ $PS1 == *"$(iterm2_prompt_mark)"* ]]
+      # Use ITERM2_SQUELCH_MARK for people who can't modify PS1 directly, like powerlevel9k users.
+      if [[ $PS1 == *"$(iterm2_prompt_mark)"* || $ITERM2_SQUELCH_MARK ]]
       then
         PS1="$PS1%{$(iterm2_prompt_end)%}"
       else
@@ -147,6 +160,6 @@ if [[ -o interactive ]]; then
     preexec_functions=($preexec_functions iterm2_preexec)
 
     iterm2_print_state_data
-    printf "\033]1337;ShellIntegrationVersion=8;shell=zsh\007"
+    iterm2_printf "\033]1337;ShellIntegrationVersion=8;shell=zsh\007"
   fi
 fi
