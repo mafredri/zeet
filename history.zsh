@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 
 HISTFILE=~/.zsh_history
-HISTSIZE=8192
-SAVEHIST=8192
+HISTSIZE=10240
+SAVEHIST=10240
 
 history_ignore=(
 	'history'
