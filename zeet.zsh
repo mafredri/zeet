@@ -166,7 +166,7 @@ if (( !IS_SERIAL )); then
 fi
 
 # Load direnv hook before Pure (hook order).
-(( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+(( $+commands[direnv] )) && source $ZSH/modules/direnv.zsh
 
 # Load pure prompt
 prompt pure
