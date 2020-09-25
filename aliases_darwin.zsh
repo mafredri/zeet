@@ -53,8 +53,10 @@ _battery() {
 _backup_enable_NOS() {
 	# TODO(maf): Start backup if one isn't running?
 	sudo sysctl -w debug.lowpri_throttle_enabled=0
-	sudo renice -n -19 -p $(pgrep backupd\$)
-	sudo renice -n -19 -p $(pgrep diskimages-helper\$)
+	sudo renice -19 -p $(pgrep backupd\$)
+	sudo renice -19 -p $(pgrep backupd-helper\$)
+	sudo renice -19 -p $(pgrep diskimages-helper\$)
+	sudo renice -19 -p $(pgrep fsck_hfs\$)
 }
 
 _flush_dns() {
