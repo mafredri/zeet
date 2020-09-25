@@ -43,7 +43,8 @@ zstyle ':completion:*:*:*:users'     ignored-patterns "_*"
 # https://www.zsh.org/mla/users/2017/msg00370.html
 _get_zfs_fake_files() {
 	if [[ -e /proc/self/mountinfo ]]; then
-		reply+=($(awk -vOFS=: -vORS=' ' '$9 == "zfs" { print $5, ".zfs" }' <(grep -v /.zfs/ /proc/self/mountinfo)))
+		# Split output on newline, rewrite \040 to spaces.
+		reply+=(${(f)"$(awk -vOFS=: '$9 == "zfs" { print $5, ".zfs" }' <(grep -v /.zfs/ /proc/self/mountinfo) | sed -e 's/\\040/ /')"})
 	fi
 }
 _get_fake_files() {
