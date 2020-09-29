@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
-typeset -A pure_halloween_kiss_color_scheme=(
+typeset -A pure_halloween_kiss_color_scheme
+pure_halloween_kiss_color_scheme=(
         color1 "#E84000" # Tangelo
         color2 "#EB6123" # Halloween Orange
         color3 "#FFE5D5" # Flesh
@@ -9,7 +10,8 @@ typeset -A pure_halloween_kiss_color_scheme=(
 	color6 "#E40055" # Raspberry
 )
 
-typeset -A pure_halloween_love_color_scheme=(
+typeset -A pure_halloween_love_color_scheme
+pure_halloween_love_color_scheme=(
         color1 "#D94E49" # English Vermillion
         color2 "#363B3F" # Onyx
         color3 "#EE7867" # Coral Reef
