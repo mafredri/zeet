@@ -28,3 +28,6 @@
 [submodule "modules/zsh-autocomplete"]
 	path = modules/zsh-autocomplete
 	url = https://github.com/marlonrichert/zsh-autocomplete.git
+[submodule "modules/zsh-histdb"]
+	path = modules/zsh-histdb
+	url = https://github.com/larkery/zsh-histdb.git
