@@ -197,7 +197,7 @@ fi
 [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
 
 source $ZSH/modules/zsh-histdb/sqlite-history.zsh
-HISTDB_HOST="'$(sql_escape ${USER}@${HOST})'"
+(( $+functions[sql_escape] )) && HISTDB_HOST="'$(sql_escape ${USER}@${HOST})'"
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 source $ZSH/modules/zsh-autosuggestions.zsh
