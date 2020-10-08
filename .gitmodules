@@ -30,4 +30,4 @@
 	url = https://github.com/marlonrichert/zsh-autocomplete.git
 [submodule "modules/zsh-histdb"]
 	path = modules/zsh-histdb
-	url = https://github.com/larkery/zsh-histdb.git
+	url = https://github.com/mafredri/zsh-histdb.git
