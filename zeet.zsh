@@ -31,7 +31,6 @@ case $OSTYPE in
 	darwin*)
 		source $ZSH/aliases_darwin.zsh
 		source $ZSH/completion_darwin.zsh
-		HISTDB_TABULATE_CMD=(sed -e $'s/\x1f/\t/g')
 		;;
 	linux-gnu*)
 		source $ZSH/aliases_linux.zsh
@@ -196,8 +195,7 @@ fi
 # Source a local zshrc, if available.
 [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
 
-source $ZSH/modules/zsh-histdb/sqlite-history.zsh
-(( $+functions[sql_escape] )) && HISTDB_HOST="'$(sql_escape ${USER}@${HOST})'"
+source $ZSH/modules/zsh-histdb.zsh
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 source $ZSH/modules/zsh-autosuggestions.zsh
