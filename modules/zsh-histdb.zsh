@@ -37,7 +37,6 @@ _histdb_tabulate_cmd() {
 
 	while read -r line; do
 		col=("${(@ps.\x1f.)line}")
-		# typeset -p line col
 		for (( i = 1; i <= $#col; i++ )); do
 			len=${#${col[$i]}}
 			if (( len > collen[$i] )); then
@@ -61,8 +60,6 @@ _histdb_tabulate_cmd() {
 	if ((colsize_precmd + $collen[-1] > COLUMNS)) && ((colsize_precmd > COLUMNS / 3)); then
 		split_cmd=1
 	fi
-
-	typeset -p split_cmd
 
 	for ((i = 1; i < $#header; i++)); do
 		case "$header[$i]" in
