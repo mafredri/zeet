@@ -79,8 +79,6 @@ _histdb_tabulate_cmd() {
 		esac
 	done
 
-	typeset -p empty_colsize colsize_precmd
-
 	# Always give at least half the terminal to commands by
 	# splitting the column on two lines and aligning to the
 	# middle.
