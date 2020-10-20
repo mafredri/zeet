@@ -21,7 +21,8 @@ pure_halloween_love_color_scheme=(
 )
 
 pure_set_halloween_color_scheme() {
-	typeset -A pure_theme=(${(kv)pure_halloween_kiss_color_scheme})
+	typeset -A pure_theme
+	pure_theme=(${(kv)pure_halloween_kiss_color_scheme})
 
 	zstyle :prompt:pure:execution_time      color $pure_theme[color3]
 	zstyle :prompt:pure:git:arrow           color $pure_theme[color5]
@@ -41,4 +42,8 @@ typeset -A current_date
 current_date=($(date +'month '%m' day '%d))
 if (( current_date[month] == 10 )) && (( current_date[day] >= 20 )); then
 	pure_set_halloween_color_scheme
+	if (( current_date[day] == 31 )); then
+		RPROMPT='%2{🧛🏻‍♀️ %}'
+		PURE_PROMPT_SYMBOL="%2{🧛🏻‍♀️ %} ❯"
+	fi
 fi
