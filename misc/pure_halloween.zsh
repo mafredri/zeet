@@ -21,13 +21,8 @@ pure_halloween_love_color_scheme=(
 )
 
 pure_set_halloween_color_scheme() {
-	autoload -Uz is-at-least
-	if ! is-at-least 5.7; then
-		# We can't use hex colors on old version of zsh.
-		return
-	fi
 	typeset -A pure_theme
-	pure_theme=(${(kv)pure_halloween_kiss_color_scheme})
+	pure_theme=("$@")
 
 	zstyle :prompt:pure:execution_time      color $pure_theme[color3]
 	zstyle :prompt:pure:git:arrow           color $pure_theme[color5]
@@ -43,12 +38,28 @@ pure_set_halloween_color_scheme() {
 	zstyle :prompt:pure:virtualenv          color $pure_theme[color6]
 }
 
-typeset -A current_date
-current_date=($(date +'month '%m' day '%d))
-if (( current_date[month] == 10 )) && (( current_date[day] >= 20 )); then
-	pure_set_halloween_color_scheme
-	if (( current_date[day] == 31 )); then
-		RPROMPT='%2{🧛🏻‍♀️ %}'
-		PURE_PROMPT_SYMBOL="%2{🧛🏻‍♀️ %} ❯"
+integer _pure_apply_custom_theme_init
+pure_apply_custom_theme() {
+	typeset -A current_date
+	current_date=($(date +'month '%m' day '%d))
+	if (( current_date[month] == 10 )) && (( current_date[day] >= 20 )); then
+		pure_set_halloween_color_scheme ${(kv)pure_halloween_kiss_color_scheme}
+		if (( current_date[day] == 31 )); then
+			RPROMPT='%2{🧛🏻‍♀️ %}'
+			PURE_PROMPT_SYMBOL="%2{🧛🏻‍♀️ %} ❯"
+		fi
 	fi
+	if ((!_pure_apply_custom_theme_init)); then
+		_pure_apply_custom_theme_init=1
+		zmodload zsh/sched
+	fi
+
+	# Apply custom theme every day at midnight.
+	sched 00:00 pure_apply_custom_theme
+}
+
+autoload -Uz is-at-least
+# Avoid using hex colors on old version of zsh (not supported).
+if is-at-least 5.7; then
+	pure_apply_custom_theme
 fi
