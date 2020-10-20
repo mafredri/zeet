@@ -11,7 +11,19 @@ export MONO_GAC_PREFIX=/usr/local              # mono
 alias ls='ls -GFh'
 alias srm='rm -P'
 alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
-alias code='code --goto'
+
+_code() {
+	if ((${#@} == 0)); then
+		if git rev-parse --is-inside-work-tree &>/dev/null; then
+			# No args, open git root.
+			command code "$(git rev-parse --show-toplevel)"
+			return
+		fi
+		1=. # No args, open current folder.
+	fi
+	command code --goto "$@"
+}
+alias code='_code'
 
 alias reset_hsts='_reset_hsts'
 alias battery='_battery'
