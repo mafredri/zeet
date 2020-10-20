@@ -21,6 +21,11 @@ pure_halloween_love_color_scheme=(
 )
 
 pure_set_halloween_color_scheme() {
+	autoload -Uz is-at-least
+	if ! is-at-least 5.7; then
+		# We can't use hex colors on old version of zsh.
+		return
+	fi
 	typeset -A pure_theme
 	pure_theme=(${(kv)pure_halloween_kiss_color_scheme})
 
