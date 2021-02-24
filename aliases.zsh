@@ -124,7 +124,9 @@ _chrome() {
 
 _install_go() {
 	parse() {
-		grep -E -o "(go1[^>]*\ \(released [0-9]{4}/[0-9]{2}/[0-9]{2}\))" \
+		tr -d $'\n' \
+			| grep -E -o "(go1[^>]*\ *\(released [0-9]{4}/[0-9]{2}/[0-9]{2}\))" \
+			| sed -e $'s/\t\t/ /g' \
 			| sort -t. -k 1,1nr -k 2,2nr -k 3,3nr
 	}
 	if which curl >/dev/null; then
@@ -154,6 +156,9 @@ _install_go() {
 		;;
 	armv[6-7]l)
 		arch=armv6l
+		;;
+	aarch64)
+		arch=arm64
 		;;
 	*)
 		echo "error: unsupported arch $arch"
