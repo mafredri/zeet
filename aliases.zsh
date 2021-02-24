@@ -24,7 +24,8 @@ alias icanhazip=_icanhazip
 
 (( $+commands[pbcopy] )) || alias pbcopy=remote_pbcopy
 (( $+commands[nvim] )) && alias vim=nvim
-(( $+commands[hub] )) && alias git=hub
+
+(( $+commands[kubectl] )) && alias k=kubectl
 
 # By using a function instead of alias we can prevent the environment variables
 # being part of the command.
