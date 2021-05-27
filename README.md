@@ -16,3 +16,11 @@ git clone --quiet --recurse-submodules=. https://github.com/mafredri/zeet.git ~/
 	&& source ~/.zshrc \
 	&& echo "Installation complete"
 ```
+
+## Note
+
+If startup is slow, ensure directories are secure via `compaudit`. For instance, on macOS:
+
+```
+chmod 0755 /usr/local/share/zsh/site-functions /usr/local/share/zsh
+```
