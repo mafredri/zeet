@@ -11,6 +11,7 @@ alias logssh=_logssh
 alias psql='PAGER="less --chop-long-lines" psql'
 alias godoc-open=_godoc-open
 alias remote_pbcopy=_remote_pbcopy
+alias findi=_findi
 
 alias todo='_todo_or_note TODO --glob "!vendor/**/*.go"'
 alias todo-c='todo -B 3 -A 5'
@@ -18,6 +19,7 @@ alias note='_todo_or_note NOTE --glob "!vendor/**/*.go"'
 alias note-c='note -B 3 -A 5'
 
 alias chrome='_chrome_runner /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+alias chromium='_chrome_runner /Applications/Chromium.app/Contents/MacOS/Chromium'
 alias chrome-canary='_chrome_runner /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
 alias install_go=_install_go
 alias icanhazip=_icanhazip
@@ -76,6 +78,15 @@ _remote_pbcopy() {
 	print -n $end
 }
 
+_findi() {
+	local dir=$1
+	if [[ $#@ -eq 1 ]]; then
+		dir=.
+	else
+		shift
+	fi
+	command find $dir -iname "*${(j.*.)@}*"
+}
 
 _godoc-open() {
 	open http://localhost:6060/pkg/${PWD#$GOPATH/src/}
@@ -96,7 +107,7 @@ _logssh() {
 
 _todo_or_note() {
 	local action=$1; shift
-	{rg $action' ?(\([^)]*\)|:)' --pretty "$@" || print "No ${action}s found.\n"} \
+	{rg $action' ?(\([^)]*\)|:).*' --pretty "$@" || print "No ${action}s found.\n"} \
 		| ${PAGER:-less} -C -R
 }
 

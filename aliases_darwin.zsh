@@ -11,6 +11,7 @@ export MONO_GAC_PREFIX=/usr/local              # mono
 alias ls='ls -GFh'
 alias srm='rm -P'
 alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
+alias plcat='plutil -convert xml1 -o -'
 
 _code() {
 	if ((${#@} == 0)); then
