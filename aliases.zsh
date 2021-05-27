@@ -18,9 +18,6 @@ alias todo-c='todo -B 3 -A 5'
 alias note='_todo_or_note NOTE --glob "!vendor/**/*.go"'
 alias note-c='note -B 3 -A 5'
 
-alias chrome='_chrome_runner /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-alias chromium='_chrome_runner /Applications/Chromium.app/Contents/MacOS/Chromium'
-alias chrome-canary='_chrome_runner /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
 alias install_go=_install_go
 alias icanhazip=_icanhazip
 
@@ -109,29 +106,6 @@ _todo_or_note() {
 	local action=$1; shift
 	{rg $action' ?(\([^)]*\)|:).*' --pretty "$@" || print "No ${action}s found.\n"} \
 		| ${PAGER:-less} -C -R
-}
-
-_chrome_runner() { _chrome "$@" &; }
-_chrome() {
-	setopt localoptions localtraps noshwordsplit
-
-	local chrome=$1; shift
-	local userdata=$(mktemp -d)
-	local -a default_args=(
-		--remote-debugging-port=9222
-		--disable-gpu
-		--disable-translate
-		--disable-sync
-		--disable-default-apps
-		--no-first-run
-		--no-default-browser-check
-		--user-data-dir=$userdata
-		--window-size=1000,600
-	)
-
-	trap 'exit 0' INT
-	trap "print chrome: cleaning up...; rm -rf '$userdata'" EXIT
-	$chrome $default_args "$@" about:blank
 }
 
 _install_go() {

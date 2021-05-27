@@ -13,23 +13,16 @@ alias srm='rm -P'
 alias airport='/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport'
 alias plcat='plutil -convert xml1 -o -'
 
-_code() {
-	if ((${#@} == 0)); then
-		if git rev-parse --is-inside-work-tree &>/dev/null; then
-			# No args, open git root.
-			command code "$(git rev-parse --show-toplevel)"
-			return
-		fi
-		1=. # No args, open current folder.
-	fi
-	command code --goto "$@"
-}
 alias code='_code'
 
 alias reset_hsts='_reset_hsts'
 alias battery='_battery'
 alias backup_enable_NOS='_backup_enable_NOS'
 alias flush_dns='_flush_dns'
+
+alias chrome='_chrome_runner /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+alias chromium='_chrome_runner /Applications/Chromium.app/Contents/MacOS/Chromium'
+alias chrome-canary='_chrome_runner /Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary'
 
 if [[ -e /Applications/OpenSCAD.app ]]; then
 	alias openscad=/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD
@@ -39,8 +32,8 @@ if [[ -e /Applications/YubiKey\ Manager.app ]]; then
 fi
 
 # Prefer `df` from Homebrew `coreutils`.
-(( $+commands[gdf] )) && alias df=gdf
-(( $+commands[trash] )) && alias trash='trash -F'
+(($+commands[gdf])) && alias df=gdf
+(($+commands[trash])) && alias trash='trash -F'
 
 # A site that has previously requested HTTP Strict Transport
 # Security (HSTS) will permanently remain and removing
@@ -75,4 +68,42 @@ _backup_enable_NOS() {
 _flush_dns() {
 	sudo dscacheutil -flushcache
 	sudo killall -HUP mDNSResponder
+}
+
+_code() {
+	if ((${#@} == 0)); then
+		if git rev-parse --is-inside-work-tree &>/dev/null; then
+			# No args, open git root.
+			command code "$(git rev-parse --show-toplevel)"
+			return
+		fi
+		1=. # No args, open current folder.
+	fi
+	command code --goto "$@"
+}
+
+_chrome_runner() {
+	_chrome "$@" &
+}
+_chrome() {
+	setopt localoptions localtraps noshwordsplit
+
+	local chrome=$1
+	shift
+	local userdata=$(mktemp -d)
+	local -a default_args=(
+		--remote-debugging-port=9222
+		--disable-gpu
+		--disable-translate
+		--disable-sync
+		--disable-default-apps
+		--no-first-run
+		--no-default-browser-check
+		--user-data-dir=$userdata
+		--window-size=1000,600
+	)
+
+	trap 'exit 0' INT
+	trap "print chrome: cleaning up...; rm -rf '$userdata'" EXIT
+	$chrome $default_args "$@" about:blank
 }
