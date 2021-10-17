@@ -10,9 +10,6 @@
 [submodule "modules/zsh-autosuggestions"]
 	path = modules/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions.git
-[submodule "modules/go-zsh-completions"]
-	path = modules/go-zsh-completions
-	url = https://github.com/zchee/go-zsh-completions
 [submodule "modules/zsh-z"]
 	path = modules/zsh-z
 	url = https://github.com/agkozak/zsh-z.git
@@ -31,3 +28,6 @@
 [submodule "modules/zsh-histdb"]
 	path = modules/zsh-histdb
 	url = https://github.com/mafredri/zsh-histdb.git
+[submodule "modules/zchee-zsh-completions"]
+	path = modules/zchee-zsh-completions
+	url = https://github.com/zchee/zsh-completions

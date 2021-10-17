@@ -10,7 +10,7 @@ fpath=(
 	$ZSH/functions(N)
 	$ZSH/completions(N)
 	$ZSH/modules/zsh-completions/src(N)
-	$ZSH/modules/go-zsh-completions/src(N)
+	$ZSH/modules/zchee-zsh-completions/src/{go,macOS,zsh}(N)
 	$ZSH/modules/zsh-z(N)
 	$fpath
 )
