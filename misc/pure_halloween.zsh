@@ -45,8 +45,16 @@ pure_apply_custom_theme() {
 	if (( current_date[month] == 10 )) && (( current_date[day] >= 20 )); then
 		pure_set_halloween_color_scheme ${(kv)pure_halloween_kiss_color_scheme}
 		if (( current_date[day] == 31 )); then
-			RPROMPT='%2{🧛🏻‍♀️ %}'
-			PURE_PROMPT_SYMBOL="%2{🧛🏻‍♀️ %} ❯"
+			if [[ -z $TMUX ]]; then
+				# 🧛🏻‍♀️
+				RPROMPT=$'%2{\U1F9DB\U1F3FB\U200D\U2640\UFE0F%}'
+				PURE_PROMPT_SYMBOL=$'%2{\U1F9DB\U1F3FB\U200D\U2640\UFE0F%} ❯'
+			else
+				# Tmux does not support ZWJ
+				# 🧛
+				RPROMPT=$'%2{\U1F9DB%}'
+				PURE_PROMPT_SYMBOL=$'%2{\U1F9DB%} ❯'
+			fi
 		fi
 	fi
 	if ((!_pure_apply_custom_theme_init)); then
