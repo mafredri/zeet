@@ -84,7 +84,7 @@ setopt no_rm_star_silent    # ask for confirmation for `rm *' or `rm path/*'
 export WORDCHARS='*?_[]~=&;!#$%^(){}'
 
 export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+export LC_TIME=C.UTF-8
 export CLICOLOR="yes"
 
 # Set default editor based on SSH
