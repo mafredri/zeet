@@ -63,6 +63,8 @@ _backup_enable_NOS() {
 	sudo renice -19 -p $(pgrep backupd-helper\$)
 	sudo renice -19 -p $(pgrep diskimages-helper\$)
 	sudo renice -19 -p $(pgrep fsck_hfs\$)
+	sudo renice -19 -p $(pgrep fsck_apfs\$)
+	sudo renice -19 -p $(pgrep mds\$)
 }
 
 _flush_dns() {
