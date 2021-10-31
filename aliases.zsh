@@ -111,12 +111,12 @@ _todo_or_note() {
 _install_go() {
 	parse() {
 		tr -d $'\n' \
-			| grep -E -o "(go1[^>]*\ *\(released [0-9]{4}/[0-9]{2}/[0-9]{2}\))" \
+			| grep -E -o "(go1[^>]*\ *\(released [0-9]{4}[/-][0-9]{2}[/-][0-9]{2}\))" \
 			| sed -e $'s/\t\t/ /g' \
 			| sort -t. -k 1,1nr -k 2,2nr -k 3,3nr
 	}
 	if which curl >/dev/null; then
-		fetch() { curl -s -L "$@"; }
+		fetch() { curl -sSL "$@"; }
 	elif which wget >/dev/null; then
 		fetch() { wget -q -O- "$@"; }
 	else
@@ -124,7 +124,7 @@ _install_go() {
 		exit 1
 	fi
 	if [[ -z $1 ]] || [[ $1 == list ]]; then
-		local release="https://golang.org/doc/devel/release.html"
+		local release="https://golang.org/doc/devel/release"
 		print "Fetching Go releases..."
 		fetch "$release" | parse
 		return
