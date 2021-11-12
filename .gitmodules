@@ -19,9 +19,6 @@
 [submodule "modules/zsh-syntax-highlighting"]
 	path = modules/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting
-[submodule "modules/fast-syntax-highlighting"]
-	path = modules/fast-syntax-highlighting
-	url = https://github.com/zdharma/fast-syntax-highlighting
 [submodule "modules/zsh-autocomplete"]
 	path = modules/zsh-autocomplete
 	url = https://github.com/marlonrichert/zsh-autocomplete.git
