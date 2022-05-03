@@ -209,6 +209,7 @@ ZSHZ_NO_RESOLVE_SYMLINKS=1
 ZSHZ_MAX_SCORE=18000  # Double the max score to keep entries longer.
 ZSHZ_CASE=ignore      # Always ignore case because Darwin is case-insensitive.
 ZSHZ_UNCOMMON=1
+ZSHZ_TILDE=1
 source $ZSH/modules/zsh-z/zsh-z.plugin.zsh
 
 source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
