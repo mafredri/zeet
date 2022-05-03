@@ -195,6 +195,9 @@ fi
 # Source a local zshrc, if available.
 [[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
 
+if [[ -z $HISTDB_FILE ]] && [[ ! -e ~/.histdb ]]; then
+	typeset -g HISTDB_FILE=~/.config/histdb/zsh-history.db
+fi
 source $ZSH/modules/zsh-histdb.zsh
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
