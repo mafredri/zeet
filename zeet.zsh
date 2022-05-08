@@ -213,7 +213,6 @@ ZSHZ_TILDE=1
 source $ZSH/modules/zsh-z/zsh-z.plugin.zsh
 
 source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-# source $ZSH/modules/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
 
