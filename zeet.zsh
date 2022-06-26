@@ -58,7 +58,6 @@ source $ZSH/completion.zsh
 source $ZSH/history.zsh
 source $ZSH/update.zsh
 source $ZSH/dircycle.zsh
-source $ZSH/gpg.zsh
 
 # Activate extra ZLE functionality.
 zle -N hst
