@@ -53,14 +53,36 @@ _battery() {
 # Speed up Time Machine backups by allowing it to use
 # more resources.
 _backup_enable_NOS() {
-	# TODO(maf): Start backup if one isn't running?
+	turbo=0
+	if [[ $1 == *turbo ]]; then
+		# Initiate turbo NOS, you must be crazy.
+		turbo=1
+	fi
+	# Disable backup throttling.
 	sudo sysctl -w debug.lowpri_throttle_enabled=0
+
+	# Increase priority of backup processes.
 	sudo renice -19 -p $(pgrep backupd\$)
 	sudo renice -19 -p $(pgrep backupd-helper\$)
 	sudo renice -19 -p $(pgrep diskimages-helper\$)
 	sudo renice -19 -p $(pgrep fsck_hfs\$)
 	sudo renice -19 -p $(pgrep fsck_apfs\$)
+
+	# Speed up spotlight indexing.
 	sudo renice -19 -p $(pgrep mds\$)
+	if ((turbo)); then
+		sudo renice -19 -p $(pgrep mds_stores\$)
+		sudo renice -19 -p $(pgrep mdsync)
+		sudo renice -19 -p $(pgrep mdworker)
+		sudo renice -19 -p $(pgrep mdbulkimport)
+		sudo renice -19 -p $(pgrep mdworker_shared)
+
+		# Misc, do these help?
+		sudo renice -19 -p $(pgrep diskarbitrationd)
+		sudo renice -19 -p $(pgrep diskimagesiod)
+	fi
+
+	print '\nTime Machine backup NOS injection complete, reboot to reset.'
 }
 
 _flush_dns() {
