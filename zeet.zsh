@@ -30,7 +30,6 @@ IS_CHROOT=0
 case $OSTYPE in
 	darwin*)
 		source $ZSH/aliases_darwin.zsh
-		source $ZSH/completion_darwin.zsh
 		;;
 	linux-gnu*)
 		source $ZSH/aliases_linux.zsh
