@@ -205,12 +205,18 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 source $ZSH/modules/zsh-autosuggestions.zsh
 bindkey '^ ' autosuggest-accept
 
+if [[ ! -f ~/.z ]]; then
+	# Keep home tidy, unless ~/.z already exists.
+	_Z_DATA=~/.config/z
+	ZSHZ_DATA=$_Z_DATA
+fi
 _Z_NO_RESOLVE_SYMLINKS=1
-ZSHZ_NO_RESOLVE_SYMLINKS=1
+ZSHZ_NO_RESOLVE_SYMLINKS=$_Z_NO_RESOLVE_SYMLINKS
 ZSHZ_MAX_SCORE=18000  # Double the max score to keep entries longer.
 ZSHZ_CASE=ignore      # Always ignore case because Darwin is case-insensitive.
 ZSHZ_UNCOMMON=1
 ZSHZ_TILDE=1
+ZSHZ_TRAILING_SLASH=1
 source $ZSH/modules/zsh-z/zsh-z.plugin.zsh
 
 source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
