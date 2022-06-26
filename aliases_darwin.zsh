@@ -1,12 +1,8 @@
 #!/usr/bin/env zsh
 
-export PSQL_EDITOR='code --wait'
 export LESS='-R'
-
-# For Homebrew packages.
+export PSQL_EDITOR='code --wait'
 export HOMEBREW_EDITOR='code --wait'
-export ANDROID_HOME=/usr/local/opt/android-sdk # android
-export MONO_GAC_PREFIX=/usr/local              # mono
 
 alias ls='ls -GFh'
 alias srm='rm -P'
