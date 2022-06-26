@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-HISTFILE=~/.zsh_history
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
 HISTSIZE=10240
 SAVEHIST=10240
 

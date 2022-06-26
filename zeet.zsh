@@ -1,6 +1,12 @@
 #!/usr/bin/env zsh
 
-ZSH=~/.zsh
+ZSH=${ZDOTDIR:-~}/.zsh
+if [[ -d $ZDOTDIR/zeet ]]; then
+	ZSH=$ZDOTDIR/zeet
+fi
+if [[ -n $ZEETDIR ]]; then
+	ZSH=$ZEETDIR
+fi
 
 # Faster response for VI-mode.
 export KEYTIMEOUT=1
@@ -191,9 +197,6 @@ if (( IS_SERIAL )); then
 	prompt_pure_set_title() {}
 fi
 
-# Source a local zshrc, if available.
-[[ -e ~/.zshrc.local ]] && source ~/.zshrc.local
-
 if [[ -z $HISTDB_FILE ]] && [[ ! -e ~/.histdb ]]; then
 	typeset -g HISTDB_FILE=~/.config/histdb/zsh-history.db
 fi
@@ -217,6 +220,13 @@ source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zs
 
 [[ -n $key[Up]   ]] && bindkey $key[Up]   history-substring-search-up
 [[ -n $key[Down] ]] && bindkey $key[Down] history-substring-search-down
+
+# Source a local zshrc, if available (before compinit & zcompdump).
+if [[ -n $ZDOTDIR ]] && [[ -e $ZDOTDIR/.zshrc.local ]]; then
+	source ${ZDOTDIR:-~}/.zshrc.local
+elif [[ -e ~/.zshrc.local ]]; then
+	source ~/.zshrc.local
+fi
 
 # Run compinit last to catch all fpaths.
 autoload -Uz compinit; compinit -i
