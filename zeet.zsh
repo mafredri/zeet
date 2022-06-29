@@ -82,26 +82,27 @@ setopt pushd_ignore_dups
 setopt pushdminus
 
 setopt auto_name_dirs
-setopt auto_cd              # automatically cd into directory without even when 'cd' is not present
-setopt cdable_vars          # enable cd VARNAME/dir/inside/var (without needing $)
+setopt auto_cd              # Automatically cd into directory even when 'cd' is not present.
+setopt cdable_vars          # Enable cd VARNAME/dir/inside/var (without needing $).
 
-setopt no_transient_rprompt # do not remove right prompt from display when accepting a command line.
-setopt multios              # enable multiple redirections
+setopt no_transient_rprompt # Do not remove right prompt from display when accepting a command line.
+setopt multios              # Enable multiple redirections.
 setopt extended_glob
-setopt glob_dots            # don't require a leading dot for matching "hidden" files
+setopt glob_dots            # Don't require a leading dot for matching "hidden" files.
 setopt interactive_comments
-setopt no_beep              # disable beeping
-setopt no_chase_links       # resolve symlinks
-setopt no_rm_star_silent    # ask for confirmation for `rm *' or `rm path/*'
+setopt no_beep              # Disable beeping.
+setopt no_chase_links       # Resolve symlinks.
+setopt no_rm_star_silent    # Ask for confirmation for `rm *' or `rm path/*'.
 
-# by default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
-# we take out the slash, period, angle brackets, dash here.
+# Remove slash, period, angle brackets and dash from the
+# default value for for more ganular word manipulation.
+# Default: '*?_-.[]~=/&;!#$%^(){}<>'
 export WORDCHARS='*?_[]~=&;!#$%^(){}'
 
-# create a zkbd compatible hash;
-# to add other keys to this hash, see: man 5 terminfo
+# Create a zkbd compatible hash.
+# See: zsh -f Functions/Misc/zkbd
+# See: man 5 terminfo
 typeset -A key
-
 key[Home]=$terminfo[khome]
 key[End]=$terminfo[kend]
 key[Insert]=$terminfo[kich1]
@@ -114,15 +115,22 @@ key[PageUp]=$terminfo[kpp]
 key[PageDown]=$terminfo[knp]
 key[ShiftTab]=$terminfo[kcbt]
 
-[[ -n $key[Home]     ]] && bindkey $key[Home]     beginning-of-line
-[[ -n $key[End]      ]] && bindkey $key[End]      end-of-line
-[[ -n $key[Insert]   ]] && bindkey $key[Insert]   overwrite-mode
-[[ -n $key[Delete]   ]] && bindkey $key[Delete]   delete-char
-[[ -n $key[Left]     ]] && bindkey $key[Left]     backward-char
-[[ -n $key[Right]    ]] && bindkey $key[Right]    forward-char
-[[ -n $key[PageUp]   ]] && bindkey $key[PageUp]   up-line-or-history
-[[ -n $key[PageDown] ]] && bindkey $key[PageDown] down-line-or-history
-[[ -n $key[ShiftTab] ]] && bindkey $key[ShiftTab] reverse-menu-complete
+typeset -A key_func=(
+	Home     beginning-of-line
+	End      end-of-line
+	Insert   overwrite-mode
+	Delete   delete-char
+	Left     backward-char
+	Right    forward-char
+	Up       history-substring-search-up    # Via zsh-history-substring-search.
+	Down     history-substring-search-down  # Via zsh-history-substring-search.
+	PageUp   up-line-or-history
+	PageDown down-line-or-history
+	ShiftTab reverse-menu-complete
+)
+for k fn in ${(kv)key_func}; do
+	[[ -n $key[$k] ]] && bindkey $key[$k] $fn
+done
 
 # [Ctrl-r] - Reverse search
 bindkey '^r' history-incremental-search-backward
@@ -193,6 +201,7 @@ if (( IS_SERIAL )); then
 fi
 
 if [[ -z $HISTDB_FILE ]] && [[ ! -e ~/.histdb ]]; then
+	# Keep home tidy, unless ~/.histdb already exists.
 	typeset -g HISTDB_FILE=~/.config/histdb/zsh-history.db
 fi
 source $ZSH/modules/zsh-histdb.zsh
@@ -218,9 +227,6 @@ source $ZSH/modules/zsh-z/zsh-z.plugin.zsh
 source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
-
-[[ -n $key[Up]   ]] && bindkey $key[Up]   history-substring-search-up
-[[ -n $key[Down] ]] && bindkey $key[Down] history-substring-search-down
 
 # Source a local zshrc, if available (before compinit & zcompdump).
 if [[ -n $ZDOTDIR ]] && [[ -e $ZDOTDIR/.zshrc.local ]]; then
