@@ -128,9 +128,6 @@ typeset -A key_func=(
 	PageDown down-line-or-history
 	ShiftTab reverse-menu-complete
 )
-for k fn in ${(kv)key_func}; do
-	[[ -n $key[$k] ]] && bindkey $key[$k] $fn
-done
 
 # [Ctrl-r] - Reverse search
 bindkey '^r' history-incremental-search-backward
@@ -234,6 +231,11 @@ if [[ -n $ZDOTDIR ]] && [[ -e $ZDOTDIR/.zshrc.local ]]; then
 elif [[ -e ~/.zshrc.local ]]; then
 	source ~/.zshrc.local
 fi
+
+# Bind keys after all modules are loaded.
+for k fn in ${(kv)key_func}; do
+	[[ -n $key[$k] ]] && bindkey $key[$k] $fn
+done
 
 # Run compinit last to catch all fpaths.
 autoload -Uz compinit; compinit -i
