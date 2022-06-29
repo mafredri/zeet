@@ -30,7 +30,11 @@ if [[ -o interactive ]]; then
     ITERM2_SHOULD_DECORATE_PROMPT="1"
     # Indicates start of command output. Runs just before command executes.
     iterm2_before_cmd_executes() {
-      iterm2_printf "\033]133;C;\007"
+      if [ "$TERM_PROGRAM" = "iTerm.app" ]; then
+        iterm2_printf "\033]133;C;\r\007"
+      else
+        iterm2_printf "\033]133;C;\007"
+      fi
     }
 
     iterm2_set_user_var() {
@@ -42,15 +46,19 @@ if [[ -o interactive ]]; then
     # e.g., iterm2_set_user_var currentDirectory $PWD
     # Accessible in iTerm2 (in a badge now, elsewhere in the future) as
     # \(user.currentDirectory).
-    whence -v iterm2_print_user_vars > /dev/null 2>&1
+    whence -v iterm2_print_user_vars >/dev/null 2>&1
     if [ $? -ne 0 ]; then
       iterm2_print_user_vars() {
-          true
+        true
       }
     fi
 
     iterm2_print_state_data() {
-      iterm2_printf "\033]1337;RemoteHost=%s@%s\007" "$USER" "${iterm2_hostname-}"
+      local _iterm2_hostname="${iterm2_hostname-}"
+      if [ -z "${iterm2_hostname:-}" ]; then
+        _iterm2_hostname=$(hostname -f 2>/dev/null)
+      fi
+      iterm2_printf "\033]1337;RemoteHost=%s@%s\007" "$USER" "${_iterm2_hostname-}"
       iterm2_printf "\033]1337;CurrentDir=%s\007" "$PWD"
       iterm2_print_user_vars
     }
@@ -127,6 +135,7 @@ if [[ -o interactive ]]; then
         PREFIX="%{$(iterm2_prompt_mark)%}"
       fi
       PS1="$PREFIX$PS1%{$(iterm2_prompt_end)%}"
+      ITERM2_DECORATED_PS1="$PS1"
     }
 
     iterm2_precmd() {
@@ -134,6 +143,10 @@ if [[ -o interactive ]]; then
       if [ -z "${ITERM2_SHOULD_DECORATE_PROMPT-}" ]; then
         # You pressed ^C while entering a command (iterm2_preexec did not run)
         iterm2_before_cmd_executes
+        if [ "$PS1" != "${ITERM2_DECORATED_PS1-}" ]; then
+          # PS1 changed, perhaps in another precmd. See issue 9938.
+          ITERM2_SHOULD_DECORATE_PROMPT="1"
+        fi
       fi
 
       iterm2_after_cmd_executes "$STATUS"
@@ -152,12 +165,16 @@ if [[ -o interactive ]]; then
     }
 
     # If hostname -f is slow on your system set iterm2_hostname prior to
-    # sourcing this script.
+    # sourcing this script. We know it is fast on macOS so we don't cache
+    # it. That lets us handle the hostname changing like when you attach
+    # to a VPN.
     if [ -z "${iterm2_hostname-}" ]; then
-      iterm2_hostname=`hostname -f 2>/dev/null`
-      # Some flavors of BSD (i.e. NetBSD and OpenBSD) don't have the -f option.
-      if [ $? -ne 0 ]; then
-	iterm2_hostname=`hostname`
+      if [ "$(uname)" != "Darwin" ]; then
+        iterm2_hostname=$(hostname -f 2>/dev/null)
+        # Some flavors of BSD (i.e. NetBSD and OpenBSD) don't have the -f option.
+        if [ $? -ne 0 ]; then
+          iterm2_hostname=$(hostname)
+        fi
       fi
     fi
 
@@ -168,6 +185,6 @@ if [[ -o interactive ]]; then
     preexec_functions=($preexec_functions iterm2_preexec)
 
     iterm2_print_state_data
-    iterm2_printf "\033]1337;ShellIntegrationVersion=11;shell=zsh\007"
+    iterm2_printf "\033]1337;ShellIntegrationVersion=13;shell=zsh\007"
   fi
 fi
