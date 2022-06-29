@@ -32,12 +32,23 @@ autoload -Uz bracketed-paste-magic
 autoload -Uz bracketed-paste-url-magic
 autoload -Uz zmv
 
+# Fix common locale issues (e.g. less, tmux).
+export LC_CTYPE="${LC_CTYPE:-en_US.UTF-8}"
+export LC_LANG="${LC_LANG:-en_US.UTF-8}"
+export LESSCHARSET="${LESSCHARSET:-utf-8}"
+
+# Enable colorized otput (e.g. for `ls`).
+export CLICOLOR="${CLICOLOR:-yes}"
+
 IS_CHROOT=0
 case $OSTYPE in
 	darwin*)
 		source $ZSH/aliases_darwin.zsh
 		;;
 	linux-gnu*)
+		# Use 24h time format on Linux, causes issues on macOS.
+		export LC_TIME="${LC_TIME:-C.UTF-8}"
+
 		source $ZSH/aliases_linux.zsh
 
 		if [[ $UID == 0 ]] && [[ $(stat -c %d:%i /) != $(stat -c %d:%i /proc/1/root/.) ]]; then
@@ -86,21 +97,6 @@ setopt no_rm_star_silent    # ask for confirmation for `rm *' or `rm path/*'
 # by default: export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 # we take out the slash, period, angle brackets, dash here.
 export WORDCHARS='*?_[]~=&;!#$%^(){}'
-
-export LANG=en_US.UTF-8
-export LC_TIME=C.UTF-8
-export CLICOLOR="yes"
-
-# Set default editor based on SSH
-if [[ -n $SSH_CONNECTION ]]; then
-	# export EDITOR='rmate --wait'
-else
-	if (( $+commands[code] )); then
-		export EDITOR='code --wait'
-	elif (( $+commands[nvim] )); then
-		export EDITOR=nvim
-	fi
-fi
 
 # create a zkbd compatible hash;
 # to add other keys to this hash, see: man 5 terminfo
