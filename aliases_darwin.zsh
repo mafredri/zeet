@@ -73,6 +73,7 @@ _backup_enable_NOS() {
 	if ((turbo)); then
 		sudo renice -19 -p $(pgrep mds_stores\$)
 		sudo renice -19 -p $(pgrep mdsync)
+		sudo renice -19 -p $(pgrep mdwrite)
 		sudo renice -19 -p $(pgrep mdworker)
 		sudo renice -19 -p $(pgrep mdbulkimport)
 		sudo renice -19 -p $(pgrep mdworker_shared)
