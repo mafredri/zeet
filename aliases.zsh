@@ -20,6 +20,8 @@ alias note-c='note -B 3 -A 5'
 
 alias install_go=_install_go
 alias icanhazip=_icanhazip
+alias icanhazip4='_icanhazip 4'
+alias icanhazip6='_icanhazip 6'
 
 (( $+commands[pbcopy] )) || alias pbcopy=remote_pbcopy
 (( $+commands[nvim] )) && alias vim=nvim
@@ -174,7 +176,16 @@ _install_go() {
 }
 
 _icanhazip() {
-	curl icanhazip.com
+	ver=${1:-}
+	if [[ -z $ver ]]; then
+		curl -s https://icanhazip.com | tr -d '\n'
+		return
+	fi
+	if [[ $ver != (4|6) ]]; then
+		echo "Usage: icanhazip [<4|6>]"
+		return 1
+	fi
+	curl -s https://ipv${ver}.icanhazip.com | tr -d '\n'
 }
 
 # ssh-key-modify-comment ~/.ssh/id_ed25519 "Watch out for space dust"
