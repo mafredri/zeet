@@ -28,3 +28,6 @@
 [submodule "modules/zchee-zsh-completions"]
 	path = modules/zchee-zsh-completions
 	url = https://github.com/zchee/zsh-completions
+[submodule "modules/atuin-omz-autocomplete"]
+	path = modules/atuin-omz-autocomplete
+	url = https://github.com/kadaan/atuin-omz-autocomplete

@@ -124,6 +124,8 @@ typeset -A key_func=(
 	Right    forward-char
 	Up       history-substring-search-up    # Via zsh-history-substring-search.
 	Down     history-substring-search-down  # Via zsh-history-substring-search.
+	# Up       atuin-history-up
+	# Down     atuin-history-down
 	PageUp   up-line-or-history
 	PageDown down-line-or-history
 	ShiftTab reverse-menu-complete
@@ -201,7 +203,22 @@ if [[ -z $HISTDB_FILE ]] && [[ ! -e ~/.histdb ]]; then
 	# Keep home tidy, unless ~/.histdb already exists.
 	typeset -g HISTDB_FILE=~/.config/histdb/zsh-history.db
 fi
-source $ZSH/modules/zsh-histdb.zsh
+#source $ZSH/modules/zsh-histdb.zsh
+
+if (($+commands[atuin])); then
+	eval "$(atuin init zsh --disable-up-arrow | grep -v ZSH_AUTOSUGGEST_STRATEGY=)"
+
+	# https://github.com/atuinsh/atuin/blob/6ab61e48d0d4e369a9109db326d08469a4bcb789/crates/atuin/src/shell/atuin.zsh#L14-L19
+	# https://github.com/atuinsh/atuin/issues/1618#issuecomment-1956386045
+	_zsh_autosuggest_strategy_atuin_auto() {
+	    suggestion=$(atuin search --cwd . --cmd-only --limit 1 --search-mode prefix --filter-mode host -- "$1")
+	}
+	_zsh_autosuggest_strategy_atuin_global() {
+	    suggestion=$(atuin search --cmd-only --limit 1 --search-mode prefix --filter-mode host -- "$1")
+	}
+
+	ZSH_AUTOSUGGEST_STRATEGY=(atuin_auto atuin_global)
+fi
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 source $ZSH/modules/zsh-autosuggestions.zsh
@@ -224,6 +241,9 @@ source $ZSH/modules/zsh-z/zsh-z.plugin.zsh
 source $ZSH/modules/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
 
 source $ZSH/modules/zsh-history-substring-search/zsh-history-substring-search.zsh
+# Works a bit slow and not as I'd like, disable for now.
+#source $ZSH/modules/atuin-omz-autocomplete/atuin-history-arrow.zsh
+ATUIN_HISTORY_SEARCH_FILTER_MODE=host
 
 # Source a local zshrc, if available (before compinit & zcompdump).
 if [[ -n $ZDOTDIR ]] && [[ -e $ZDOTDIR/.zshrc.local ]]; then
