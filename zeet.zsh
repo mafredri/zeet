@@ -69,6 +69,9 @@ source $ZSH/completion.zsh
 source $ZSH/history.zsh
 source $ZSH/update.zsh
 source $ZSH/dircycle.zsh
+if [[ -f ~/.config/op/plugins.sh ]]; then
+	source ~/.config/op/plugins.sh
+fi
 
 # Activate extra ZLE functionality.
 zle -N hst
