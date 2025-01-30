@@ -12,33 +12,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-iterm2_printf() {
-  local fmt=$1
-  shift
-
-  if [[ -n $TMUX ]]; then
-    # Inside tmux, we must escape the construct.
-    fmt="\ePtmux;\e${fmt}\e\\"
-  fi
-
-  printf "$fmt" "$@"
-}
-
 if [[ -o interactive ]]; then
-  if [ "${ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX-}""$TERM" != "screen" -a "${ITERM_SHELL_INTEGRATION_INSTALLED-}" = "" -a "$TERM" != linux -a "$TERM" != dumb ]; then
+  if [ "${ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX-}""$TERM" != "tmux-256color" -a "${ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX-}""$TERM" != "screen" -a "${ITERM_SHELL_INTEGRATION_INSTALLED-}" = "" -a "$TERM" != linux -a "$TERM" != dumb ]; then
     ITERM_SHELL_INTEGRATION_INSTALLED=Yes
     ITERM2_SHOULD_DECORATE_PROMPT="1"
     # Indicates start of command output. Runs just before command executes.
     iterm2_before_cmd_executes() {
       if [ "$TERM_PROGRAM" = "iTerm.app" ]; then
-        iterm2_printf "\033]133;C;\r\007"
+        printf "\033]133;C;\r\007"
       else
-        iterm2_printf "\033]133;C;\007"
+        printf "\033]133;C;\007"
       fi
     }
 
     iterm2_set_user_var() {
-      iterm2_printf "\033]1337;SetUserVar=%s=%s\007" "$1" $(printf "%s" "$2" | base64 | tr -d '\n')
+      printf "\033]1337;SetUserVar=%s=%s\007" "$1" $(printf "%s" "$2" | base64 | tr -d '\n')
     }
 
     # Users can write their own version of this method. It should call
@@ -46,7 +34,7 @@ if [[ -o interactive ]]; then
     # e.g., iterm2_set_user_var currentDirectory $PWD
     # Accessible in iTerm2 (in a badge now, elsewhere in the future) as
     # \(user.currentDirectory).
-    whence -v iterm2_print_user_vars >/dev/null 2>&1
+    whence -v iterm2_print_user_vars > /dev/null 2>&1
     if [ $? -ne 0 ]; then
       iterm2_print_user_vars() {
         true
@@ -58,25 +46,25 @@ if [[ -o interactive ]]; then
       if [ -z "${iterm2_hostname:-}" ]; then
         _iterm2_hostname=$(hostname -f 2>/dev/null)
       fi
-      iterm2_printf "\033]1337;RemoteHost=%s@%s\007" "$USER" "${_iterm2_hostname-}"
-      iterm2_printf "\033]1337;CurrentDir=%s\007" "$PWD"
+      printf "\033]1337;RemoteHost=%s@%s\007" "$USER" "${_iterm2_hostname-}"
+      printf "\033]1337;CurrentDir=%s\007" "$PWD"
       iterm2_print_user_vars
     }
 
     # Report return code of command; runs after command finishes but before prompt
     iterm2_after_cmd_executes() {
-      iterm2_printf "\033]133;D;%s\007" "$STATUS"
+      printf "\033]133;D;%s\007" "$STATUS"
       iterm2_print_state_data
     }
 
     # Mark start of prompt
     iterm2_prompt_mark() {
-      iterm2_printf "\033]133;A\007"
+      printf "\033]133;A\007"
     }
 
     # Mark end of prompt
     iterm2_prompt_end() {
-      iterm2_printf "\033]133;B\007"
+      printf "\033]133;B\007"
     }
 
     # There are three possible paths in life.
@@ -124,7 +112,7 @@ if [[ -o interactive ]]; then
       ITERM2_SHOULD_DECORATE_PROMPT=""
 
       # Add our escape sequences just before the prompt is shown.
-      # Use ITERM2_SQUELCH_MARK for people who can't mdoify PS1 directly, like powerlevel9k users.
+      # Use ITERM2_SQUELCH_MARK for people who can't modify PS1 directly, like powerlevel9k users.
       # This is gross but I had a heck of a time writing a correct if statetment for zsh 5.0.2.
       local PREFIX=""
       if [[ $PS1 == *"$(iterm2_prompt_mark)"* ]]; then
@@ -170,10 +158,10 @@ if [[ -o interactive ]]; then
     # to a VPN.
     if [ -z "${iterm2_hostname-}" ]; then
       if [ "$(uname)" != "Darwin" ]; then
-        iterm2_hostname=$(hostname -f 2>/dev/null)
+        iterm2_hostname=`hostname -f 2>/dev/null`
         # Some flavors of BSD (i.e. NetBSD and OpenBSD) don't have the -f option.
         if [ $? -ne 0 ]; then
-          iterm2_hostname=$(hostname)
+          iterm2_hostname=`hostname`
         fi
       fi
     fi
@@ -185,6 +173,6 @@ if [[ -o interactive ]]; then
     preexec_functions=($preexec_functions iterm2_preexec)
 
     iterm2_print_state_data
-    iterm2_printf "\033]1337;ShellIntegrationVersion=13;shell=zsh\007"
+    printf "\033]1337;ShellIntegrationVersion=14;shell=zsh\007"
   fi
 fi
