@@ -143,12 +143,12 @@ autoload -U edit-command-line && zle -N edit-command-line
 bindkey '\ee' edit-command-line
 
 # [Esc-w] - Kill from the cursor to the beginning of line
-bindkey '\ew' kill-region
+# bindkey '\ew' kill-region
 
 # Set [Opt+Right] to forward word
-bindkey '\e[1;9C' forward-word
+# bindkey '\e[1;9C' forward-word
 # Set [Opt+Left] to backward word
-bindkey '\e[1;9D' backward-word
+# bindkey '\e[1;9D' backward-word
 
 if [[ -n $TMUX ]]; then
 	bindkey "\e[1;3C" forward-word
@@ -265,3 +265,8 @@ autoload -Uz compinit; compinit -i
 
 # Load extras (like zcompdump to speed up opening a new shell).
 source $ZSH/extra.zsh
+
+bindkey '^x^u' undo
+bindkey '^x^r' redo
+bindkey '^k' backward-kill-line
+bindkey '^K' backward-kill-line
