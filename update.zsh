@@ -4,14 +4,21 @@ _zeet_update() {
 	# cd -q prevents side-effects of changing directory
 	cd -q $1
 	# prevent git garbage collection for performance reasons
-	command git -c gc.auto=0 fetch --quiet
+	command git -c gc.auto=0 fetch --quiet || {
+		print -u2 "zeet: update: Failed to fetch updates"
+		return 2
+	}
 
 	local behind
 	behind=$(command git rev-list --right-only --count HEAD...@'{u}' 2>/dev/null)
 	if (( ${behind:-0} > 0 )); then
-		command git pull --quiet
-		command git submodule sync
-		command git submodule update --init --quiet
+		command git pull --quiet \
+			&& command git submodule sync \
+			&& command git submodule update --init --quiet \
+			|| {
+			print -u2 "zeet: update: Failed to update submodules"
+			return 2
+		}
 		return 0
 	fi
 	return 1
@@ -25,6 +32,12 @@ _zeet_update_callback() {
 	if [[ $2 == 0 ]]; then
 		# Update config on next prompt.
 		precmd_functions+=(_zeet_update_replace_shell)
+	elif [[ $2 == 2 ]]; then
+		# Print last line of stderr.
+		echo "$5\n---" >> /tmp/zeet.log
+		lines=("${(ps.\n.)5}")
+		print -u2 "\n${lines[-1]} (see /tmp/zeet.log)\n\n"
+		zle && zle .reset-prompt
 	fi
 	async_stop_worker "zeet"
 	_ZEET_UPDATE_INIT=0
